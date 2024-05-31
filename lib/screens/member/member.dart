@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:quiet_app/constants/constants.dart";
-import "package:quiet_app/screens/member/account_page.dart";
-import "package:quiet_app/screens/member/chat_page.dart";
-import "package:quiet_app/screens/member/vouchers_page.dart";
+import "package:quiet_app/screens/member/account.dart";
+import "package:quiet_app/screens/member/chat.dart";
+import "package:quiet_app/screens/member/vouchers.dart";
 
 class MemberMain extends StatefulWidget {
   const MemberMain({super.key});
