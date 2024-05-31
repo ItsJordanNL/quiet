@@ -1,17 +1,17 @@
 import "package:flutter/material.dart";
 
-class Chat_Page extends StatefulWidget {
-  const Chat_Page({super.key});
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key});
 
   @override
-  State<Chat_Page> createState() => _Chat_PageState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _Chat_PageState extends State<Chat_Page> {
+class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chat"),),
+      appBar: AppBar(title: const Text("Chat"),),
     );
   }
 }

@@ -4,19 +4,19 @@ import "package:quiet_app/screens/member/account_page.dart";
 import "package:quiet_app/screens/member/chat_page.dart";
 import "package:quiet_app/screens/member/vouchers_page.dart";
 
-class Member_Main extends StatefulWidget {
-  const Member_Main({super.key});
+class MemberMain extends StatefulWidget {
+  const MemberMain({super.key});
 
   @override
-  State<Member_Main> createState() => _Member_MainState();
+  State<MemberMain> createState() => _MemberMainState();
 }
 
-class _Member_MainState extends State<Member_Main> {
+class _MemberMainState extends State<MemberMain> {
   int index = 0;
     final screens = [
-    const Vouchers_Page(), 
-    const Chat_Page(),
-    const Account_Page(),
+    const VouchersPage(), 
+    const ChatPage(),
+    const AccountPage(),
     ];
 
   @override

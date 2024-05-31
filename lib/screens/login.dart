@@ -3,18 +3,18 @@ import 'package:quiet_app/screens/member/member.dart';
 import 'package:quiet_app/screens/sponsor/sponsor.dart';
 import 'package:quiet_app/screens/volunteer/volunteer.dart';
 
-class Login_Page extends StatefulWidget {
-  const Login_Page({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<Login_Page> createState() => _Login_PageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _Login_PageState extends State<Login_Page> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Choose your role"),
+      appBar: AppBar(title: const Text("Choose your role"),
       ),
       body: Center(
         child: Column(
@@ -25,35 +25,35 @@ class _Login_PageState extends State<Login_Page> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Member_Main(),
+                    builder: (context) => const MemberMain(),
                   ),
                 );
               },
-              child: Text('Member'),
+              child: const Text('Member'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Volunteer_Main(),
+                    builder: (context) => const VolunteerMain(),
                   ),
                 );
               },
-              child: Text('Volunteer'),
+              child: const Text('Volunteer'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Sponsor_Main(),
+                    builder: (context) => const SponsorMain(),
                   ),
                 );
               },
-              child: Text('Sponsor'),
+              child: const Text('Sponsor'),
             ),
           ],
         ),

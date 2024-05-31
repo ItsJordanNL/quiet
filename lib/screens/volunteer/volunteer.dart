@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-class Volunteer_Main extends StatefulWidget {
-  const Volunteer_Main({super.key});
+class VolunteerMain extends StatefulWidget {
+  const VolunteerMain({super.key});
 
   @override
-  State<Volunteer_Main> createState() => _Volunteer_MainState();
+  State<VolunteerMain> createState() => _VolunteerMainState();
 }
 
-class _Volunteer_MainState extends State<Volunteer_Main> {
+class _VolunteerMainState extends State<VolunteerMain> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();

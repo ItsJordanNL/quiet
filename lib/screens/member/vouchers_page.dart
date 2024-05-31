@@ -1,17 +1,17 @@
 import "package:flutter/material.dart";
 
-class Vouchers_Page extends StatefulWidget {
-  const Vouchers_Page({super.key});
+class VouchersPage extends StatefulWidget {
+  const VouchersPage({super.key});
 
   @override
-  State<Vouchers_Page> createState() => _Vouchers_PageState();
+  State<VouchersPage> createState() => _VouchersPageState();
 }
 
-class _Vouchers_PageState extends State<Vouchers_Page> {
+class _VouchersPageState extends State<VouchersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Choose a voucher"),),
+      appBar: AppBar(title: const Text("Choose a voucher"),),
     );
   }
 }

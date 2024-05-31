@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class Account_Page extends StatefulWidget {
-  const Account_Page({super.key});
+class AccountPage extends StatefulWidget {
+  const AccountPage({super.key});
 
   @override
-  State<Account_Page> createState() => _Account_PageState();
+  State<AccountPage> createState() => _AccountPageState();
 }
 
-class _Account_PageState extends State<Account_Page> {
+class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Account"),),
+      appBar: AppBar(title: const Text("Account"),),
     );
   }
 }

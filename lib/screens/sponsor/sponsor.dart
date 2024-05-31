@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-class Sponsor_Main extends StatefulWidget {
-  const Sponsor_Main({super.key});
+class SponsorMain extends StatefulWidget {
+  const SponsorMain({super.key});
 
   @override
-  State<Sponsor_Main> createState() => _Sponsor_MainState();
+  State<SponsorMain> createState() => _SponsorMainState();
 }
 
-class _Sponsor_MainState extends State<Sponsor_Main> {
+class _SponsorMainState extends State<SponsorMain> {
   @override
   Widget build(BuildContext context) {
     return const Placeholder();
