@@ -36,13 +36,13 @@ class _Member_MainState extends State<Member_Main> {
               label: 'Vouchers',
             ),
             NavigationDestination(
-                icon: Icon(Icons.chat_outlined),
+                icon: Icon(Icons.chat_outlined, color: secondaryText,),
                 selectedIcon: Icon(Icons.chat_rounded, color: backgroundColor),
                 label: 'Chat'),
             NavigationDestination(
-                icon: Icon(Icons.account_circle_rounded),
+                icon: Icon(Icons.person_outline_rounded, color: secondaryText,),
                 selectedIcon:
-                    Icon(Icons.account_circle_rounded, color: backgroundColor),
+                    Icon(Icons.person, color: backgroundColor),
                 label: 'Account'),
           ],
         ), ),
