@@ -29,11 +29,11 @@ class _VolunteerMainState extends State<VolunteerMain> {
           destinations: const [
             NavigationDestination(
               icon: Icon(
-                Icons.confirmation_number_outlined,
+                Icons.dashboard_outlined,
               ),
-              selectedIcon: Icon(Icons.confirmation_number_rounded,
+              selectedIcon: Icon(Icons.dashboard_rounded,
                   color: backgroundColor),
-              label: 'Vouchers',
+              label: 'Dashboard',
             ),
             NavigationDestination(
                 icon: Icon(Icons.chat_outlined, color: secondaryText,),

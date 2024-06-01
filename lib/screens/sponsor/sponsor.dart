@@ -29,9 +29,9 @@ class _SponsorMainState extends State<SponsorMain> {
           destinations: const [
             NavigationDestination(
               icon: Icon(
-                Icons.confirmation_number_outlined,
+                Icons.volunteer_activism_outlined,
               ),
-              selectedIcon: Icon(Icons.confirmation_number_rounded,
+              selectedIcon: Icon(Icons.volunteer_activism_rounded,
                   color: backgroundColor),
               label: 'Vouchers',
             ),
