@@ -33,7 +33,7 @@ class _SponsorMainState extends State<SponsorMain> {
               ),
               selectedIcon: Icon(Icons.volunteer_activism_rounded,
                   color: backgroundColor),
-              label: 'Vouchers',
+              label: 'Donaties',
             ),
             NavigationDestination(
                 icon: Icon(Icons.chat_outlined, color: secondaryText,),
