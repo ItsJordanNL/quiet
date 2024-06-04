@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'quiet-silent.firebaseapp.com',
     storageBucket: 'quiet-silent.appspot.com',
   );
+
 }
