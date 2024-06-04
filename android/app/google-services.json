@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "775632908947",
+    "project_id": "quiet-silent",
+    "storage_bucket": "quiet-silent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775632908947:android:cae64e2f19a1a30f74d366",
+        "android_client_info": {
+          "package_name": "com.silent.quiet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAAwweH4TvxrMVaokjRShIGvZdqeuhu8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
