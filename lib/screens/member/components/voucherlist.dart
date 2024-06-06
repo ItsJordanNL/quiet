@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/constants/constants.dart';
@@ -89,30 +90,38 @@ class _VoucherList extends State<VoucherList> {
         children: <Widget>[
           Card(
             margin: const EdgeInsets.all(20),
+            color: backgroundColor,
             child: Column(
               children: [
-                const Padding(padding: EdgeInsets.only(bottom: 15.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8.0),
-                    topRight: Radius.circular(8.0),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 15.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      topRight: Radius.circular(8.0),
+                    ),
+                    child: Image(
+                      image: AssetImage('assets/images/psv_wedstrijd.png'),
+                    ),
                   ),
-                  child: Image(
-                    image: AssetImage('assets/images/psv_wedstrijd.png'),
-                  ),
-                ),
                 ),
                 const Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     children: [
-                      Text("Voetbalwedstrijd PSV - Ajax tickets"),
+                      Text(
+                        "Voetbalwedstrijd PSV - Ajax tickets",
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal),
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 15.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -121,16 +130,39 @@ class _VoucherList extends State<VoucherList> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.person_outline_rounded),
-                              SizedBox(width: 4,),
-                              Text("2 personen"),
+                              Opacity(opacity: 0.25,
+                              child: Icon(Icons.person_outline_rounded),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Opacity(opacity: 0.25,
+                              child: Text(
+                                "2 personen",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal),
+                              ),),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.location_on_rounded),
-                                SizedBox(width: 4,),
-                              Text("Eindhoven"),
+                              Opacity(opacity: 0.25,
+                              child: Icon(Icons.location_on_rounded),
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Opacity(opacity: 0.25,
+                              child: Text(
+                                "Eindhoven",
+                                style: TextStyle(
+                                    fontFamily: 'Roboto',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              ),
                             ],
                           )
                         ],
@@ -138,16 +170,25 @@ class _VoucherList extends State<VoucherList> {
                       SizedBox(
                         height: 45,
                         child: ElevatedButton(
-                         style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color(primary),
-                         ),
-                          
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStateProperty.all<Color>(primary),
+                          ),
                           onPressed: () {},
                           child: const Row(
                             children: [
-                              Text('Reserveer', 
-                              style: TextStyle(color: primaryText),),
-                              Icon(Icons.keyboard_arrow_right_rounded),
+                              Text(
+                                'Reserveer',
+                                style: TextStyle(
+                                    color: primaryText,
+                                    fontFamily: 'Roboto-Medium',
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Icon(
+                                Icons.keyboard_arrow_right_rounded,
+                                color: primaryText,
+                              ),
                             ],
                           ),
                         ),
