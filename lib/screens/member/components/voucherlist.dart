@@ -5,6 +5,21 @@ import 'package:flutter/widgets.dart';
 import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/constants/constants.dart';
 
+// Variabeles for vouchers
+class Voucher {
+  final String imagePath;
+  final String titleVoucher;
+  final String persons;
+  final String location;
+
+  Voucher({
+    required this.imagePath,
+    required this.titleVoucher,
+    required this.persons,
+    required this.location,
+  });
+}
+
 class VoucherList extends StatefulWidget {
   const VoucherList({super.key});
 
@@ -12,106 +27,47 @@ class VoucherList extends StatefulWidget {
   State<VoucherList> createState() => _VoucherList();
 }
 
-// class _VoucherList extends State<VoucherList> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: ListView(
-//         children: const <Widget>[
-//           Card(
-//             margin: EdgeInsets.all(20),
-//             child: Column(
-//               children: [
-//                 ClipRRect(
-//                   borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(8.0),
-//                     topRight: Radius.circular(8.0),
-//                   ),
-//                   child: Image(
-//                     image: AssetImage('assets/images/psv_wedstrijd.png'),
-//                   ),
-//                 ),
-//                 Row(
-//                   children: [
-//                     Padding(
-//                       padding: EdgeInsets.all(15.0),
-//                       child: Text("Voetbalwedstrijd PSV - Ajax tickets"),
-//                     ),
-//                   ],
-//                 ),
-//                 Row(
-//                   children: [
-//                     Padding(
-//                       padding: EdgeInsets.only(
-//                         left: 12.0,
-//                         right: 7.5,
-//                         bottom: 3.0,
-//                       ),
-//                       child: Icon(
-//                         Icons.person_outline_rounded,
-//                       ),
-//                     ),
-//                     Padding(
-//                       padding: EdgeInsets.only(bottom: 3.0),
-//                       child: Text("2 personen"),
-//                     ),
-//                     ElevatedButton(onPressed: null, child: Text('Reserveer'))
-//                   ],
-//                 ),
-//                 Row(
-//                   children: [
-//                     Padding(
-//                       padding:
-//                           EdgeInsets.only(left: 12.0, right: 7.5, bottom: 15.0),
-//                       child: Icon(
-//                         Icons.location_on_rounded,
-//                       ),
-//                     ),
-//                     Padding(
-//                       padding: EdgeInsets.only(bottom: 15.0),
-//                       child: Text("Eindhoven"),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class _VoucherList extends State<VoucherList> {
+  // Information of the vouchers
+  final List<Voucher> vouchers = [
+    Voucher(
+        imagePath: 'assets/images/psv_wedstrijd.png',
+        titleVoucher: "Voetbalwedstrijd PSV - Ajax tickets",
+        persons: "2 personen",
+        location: "Eindhoven")
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          Card(
+      body: ListView.builder(
+        itemCount: vouchers.length,
+        itemBuilder: (context, index) {
+          // Made lay-out of the card
+          return Card(
             margin: const EdgeInsets.all(20),
             color: backgroundColor,
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 15.0),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  // Image
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8.0),
                       topRight: Radius.circular(8.0),
                     ),
-                    child: Image(
-                      image: AssetImage('assets/images/psv_wedstrijd.png'),
-                    ),
+                    child: Image.asset(vouchers[index].imagePath),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                // Title of voucher
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Row(
                     children: [
                       Text(
-                        "Voetbalwedstrijd PSV - Ajax tickets",
-                        style: TextStyle(
+                        vouchers[index].titleVoucher,
+                        style: const TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 16,
                             fontWeight: FontWeight.normal),
@@ -125,48 +81,56 @@ class _VoucherList extends State<VoucherList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
+                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // How many persons
                           Row(
                             children: [
-                              Opacity(opacity: 0.25,
-                              child: Icon(Icons.person_outline_rounded),
+                              const Opacity(
+                                opacity: 0.25,
+                                child: Icon(Icons.person_outline_rounded),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
-                              Opacity(opacity: 0.25,
-                              child: Text(
-                                "2 personen",
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),),
+                              Opacity(
+                                opacity: 0.25,
+                                child: Text(
+                                  vouchers[index].persons,
+                                  style: const TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
                             ],
                           ),
+                          // Location
                           Row(
                             children: [
-                              Opacity(opacity: 0.25,
-                              child: Icon(Icons.location_on_rounded),
+                              const Opacity(
+                                opacity: 0.25,
+                                child: Icon(Icons.location_on_rounded),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 4,
                               ),
-                              Opacity(opacity: 0.25,
-                              child: Text(
-                                "Eindhoven",
-                                style: TextStyle(
-                                    fontFamily: 'Roboto',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal),
-                              ),
+                              Opacity(
+                                opacity: 0.25,
+                                child: Text(
+                                  vouchers[index].location,
+                                  style: const TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal),
+                                ),
                               ),
                             ],
                           )
                         ],
                       ),
+                      // Button
                       SizedBox(
                         height: 45,
                         child: ElevatedButton(
@@ -198,8 +162,8 @@ class _VoucherList extends State<VoucherList> {
                 ),
               ],
             ),
-          )
-        ],
+          );
+        },
       ),
     );
   }
