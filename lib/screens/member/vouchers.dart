@@ -12,7 +12,7 @@ class _VouchersPageState extends State<VouchersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(""),),
+      appBar: AppBar(title: const Text("Choose a voucher"),),
       // body: const VoucherInfo(),
     );
   }
