@@ -18,11 +18,12 @@ class _VoucherInfo extends State<VoucherInfo> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        // Image of voucher
         SizedBox(
           width: double.infinity,
           height: 250,
           child: Image.asset(
-            'assets/images/psv_wedstrijd2.png',
+            'assets/images/psv_wedstrijd.png',
             fit: BoxFit.cover,
           ),
         ),
