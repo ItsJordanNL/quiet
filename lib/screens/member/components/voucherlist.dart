@@ -34,7 +34,22 @@ class _VoucherList extends State<VoucherList> {
         imagePath: 'assets/images/psv_wedstrijd.png',
         titleVoucher: "Voetbalwedstrijd PSV - Ajax tickets",
         persons: "2 personen",
-        location: "Eindhoven")
+        location: "Eindhoven"),
+    Voucher(
+        imagePath: 'assets/images/zusje.png',
+        titleVoucher: "Avondvullend dineren bij 't Zusje",
+        persons: "4 personen",
+        location: "Eindhoven"),
+    Voucher(
+        imagePath: 'assets/images/ouwehands_panda.png',
+        titleVoucher: "Ouwehands Dierenparktickets",
+        persons: "6 personen",
+        location: "Rhenen"),
+    Voucher(
+        imagePath: 'assets/images/museum_mauritshuis.png',
+        titleVoucher: "Museum Mauritshuis tickets",
+        persons: "2 personen",
+        location: "Den Haag")
   ];
 
   @override
@@ -81,7 +96,7 @@ class _VoucherList extends State<VoucherList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // How many persons
