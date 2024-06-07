@@ -60,17 +60,6 @@ class _VoucherList extends State<VoucherList> {
             color: backgroundColor,
             child: Column(
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.only(bottom: 15.0),
-                //   // Image
-                //   child: ClipRRect(
-                //     borderRadius: const BorderRadius.only(
-                //       topLeft: Radius.circular(8.0),
-                //       topRight: Radius.circular(8.0),
-                //     ),
-                //     child: Image.asset(vouchers[index].imagePath),
-                //   ),
-                // ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 15.0),
                   child: SizedBox(
