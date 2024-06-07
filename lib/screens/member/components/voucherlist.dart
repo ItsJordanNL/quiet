@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/constants/constants.dart';
 
 // Variabeles for vouchers
@@ -64,15 +60,32 @@ class _VoucherList extends State<VoucherList> {
             color: backgroundColor,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  // Image
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      topRight: Radius.circular(8.0),
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 15.0),
+                //   // Image
+                //   child: ClipRRect(
+                //     borderRadius: const BorderRadius.only(
+                //       topLeft: Radius.circular(8.0),
+                //       topRight: Radius.circular(8.0),
+                //     ),
+                //     child: Image.asset(vouchers[index].imagePath),
+                //   ),
+                // ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 15.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 180,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(9.0),
+                      ),
+                      child: Image.asset(
+                        vouchers[index].imagePath,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    child: Image.asset(vouchers[index].imagePath),
                   ),
                 ),
                 // Title of voucher
