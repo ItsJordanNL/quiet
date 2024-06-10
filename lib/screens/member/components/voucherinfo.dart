@@ -19,14 +19,41 @@ class _VoucherInfo extends State<VoucherInfo> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         // Image of voucher
-        SizedBox(
-          width: double.infinity,
-          height: 250,
-          child: Image.asset(
-            'assets/images/psv_wedstrijd.png',
-            fit: BoxFit.cover,
+        Stack(children: [
+          SizedBox(
+            width: double.infinity,
+            height: 250,
+            child: Image.asset(
+              'assets/images/psv_wedstrijd.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          // Back button 
+          Padding(padding: const EdgeInsets.only(top: space),
+          child: Row(
+            children: [
+              SizedBox(
+                  height: 45,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(45, 45),
+                        shape: const CircleBorder()),
+                    onPressed: () {},
+                    child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.keyboard_arrow_left_rounded,
+                            color: primary,
+                            size: 35,
+                          ),
+                        ]),
+                  )),
+            ],
+          ),
+          ),
+        ]),
+
         Container(
             margin: const EdgeInsets.only(
               left: 20,
