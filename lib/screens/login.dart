@@ -33,65 +33,70 @@ class _LoginPageState extends State<LoginPage> {
     return firebaseApp;
   }
 
-Future<void> _login() async {
-  setState(() {
-    _isLoading = true;
-  });
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _usernameController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
-    // Handle successful login
-    print('Login successful: ${userCredential.user}');
-    
-    // Determine the type of user
-    String userType = await _getUserType(userCredential.user!.email!);
-    
-    // Navigate to the appropriate page based on user type
-    if (userType == 'member') {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MemberMain()),
-      );
-    } else if (userType == 'volunteer') {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const VolunteerMain()),
-      );
-      // Add your navigation logic here
-    } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const SponsorMain()),
-      );
-      // Handle other types of users or scenarios
-      // Add your handling logic here
-    }
-  } on FirebaseAuthException catch (e) {
-    // Handle login error
-    print('Login failed: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Login failed: ${e.message}')),
-    );
-  } finally {
+  Future<void> _login() async {
     setState(() {
-      _isLoading = false;
+      _isLoading = true;
     });
-  }
-}
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // Handle successful login
+      print('Login successful: ${userCredential.user}');
 
-Future<String> _getUserType(String email) async {
-  // Implement logic to determine user type based on email
-  // For example, if the email contains "member", return "member"
-  // If the email contains "volunteer", return "volunteer"
-  if (email.contains('member@quiet.nl')) {
-    return 'member';
-  } else if (email.contains('volunteer@quiet.nl')) {
-    return 'volunteer';
-  } else {
-    // Handle other types of users or scenarios
-    return 'other';
-  }
-}
+      // Determine the type of user
+      String userType = await _getUserType(userCredential.user!.email!);
 
+      if (userType == 'unknown') {
+        // Log the user out if the type is unknown
+        await FirebaseAuth.instance.signOut();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: User type not recognized')),
+        );
+      } else {
+        // Navigate to the appropriate page based on user type
+        Widget targetPage;
+        if (userType == 'member') {
+          targetPage = const MemberMain();
+        } else if (userType == 'volunteer') {
+          targetPage = const VolunteerMain();
+        } else {
+          targetPage = const SponsorMain();
+        }
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => targetPage),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // Handle login error
+      print('Login failed: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.message}')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<String> _getUserType(String email) async {
+    // Implement logic to determine user type based on email
+    // For example, if the email contains "member", return "member"
+    // If the email contains "volunteer", return "volunteer"
+    if (email.endsWith('member.quiet.nl')) {
+      return 'member';
+    } else if (email.endsWith('volunteer.quiet.nl')) {
+      return 'volunteer';
+    } else if (email.endsWith('sponsor.quiet.nl')) {
+      return 'sponsor';
+    } else {
+      // Handle other types of users or scenarios
+      return 'unknown';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +155,8 @@ Future<String> _getUserType(String email) async {
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Welkom terug!',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.normal),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.normal),
                       ),
                     ],
                   ),
@@ -172,7 +178,8 @@ Future<String> _getUserType(String email) async {
                     controller: _usernameController,
                     decoration: InputDecoration(
                       labelText: 'Gebruikersnaam',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
                       border: InputBorder.none,
                     ),
                   ),
@@ -194,10 +201,13 @@ Future<String> _getUserType(String email) async {
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'Wachtwoord',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 10.0),
                       border: InputBorder.none,
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword ? Icons.remove_red_eye_outlined : Icons.visibility_off_outlined),
+                        icon: Icon(_obscurePassword
+                            ? Icons.remove_red_eye_outlined
+                            : Icons.visibility_off_outlined),
                         onPressed: _toggle,
                       ),
                     ),
@@ -221,14 +231,18 @@ Future<String> _getUserType(String email) async {
                     onPressed: _isLoading ? null : _login,
                     child: _isLoading
                         ? CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                         : Text(
                             'Inloggen',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 134, 168, 39)),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 134, 168, 39)),
                       foregroundColor: MaterialStateProperty.all(Colors.white),
                     ),
                   ),
