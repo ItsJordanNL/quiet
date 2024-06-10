@@ -1,3 +1,17 @@
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.4'  // Zorg ervoor dat je de juiste versie hebt
+        classpath 'com.google.gms:google-services:4.3.10'  // Voeg deze regel toe
+    }
+}
+
+
+
 allprojects {
     repositories {
         google()
