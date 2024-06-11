@@ -28,10 +28,8 @@ class UserListScreenState extends State<UserListScreen> {
 
   String formatTimestamp(Timestamp timestamp) {
     final dateTime = timestamp.toDate();
-    final centralEuropeanTime =
-        dateTime.add(const Duration(hours: 2)); // Adjust for CET
     final formattedDate =
-        DateFormat('HH:mm @ dd-MM').format(centralEuropeanTime);
+        DateFormat('HH:mm @ dd-MM').format(dateTime);
     return formattedDate;
   }
 
