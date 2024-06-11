@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quiet_app/screens/volunteer/components/chat_model.dart';
@@ -7,13 +8,13 @@ class ChatScreen extends StatefulWidget {
   final String receiverId;
   final String receiverName;
 
-  ChatScreen({required this.receiverId, required this.receiverName});
+  const ChatScreen({super.key, required this.receiverId, required this.receiverName});
 
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  ChatScreenState createState() => ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _currentUser;
@@ -29,9 +30,9 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> _fetchUserNames() async {
     QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').get();
     Map<String, String> names = {};
-    userSnapshot.docs.forEach((doc) {
+    for (var doc in userSnapshot.docs) {
       names[doc.id] = doc['naam'];
-    });
+    }
     setState(() {
       _userNames = names;
     });
@@ -54,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   String _getCombinedId(String uid1, String uid2) {
-    return uid1.hashCode <= uid2.hashCode ? '$uid1\_$uid2' : '$uid2\_$uid1';
+    return uid1.hashCode <= uid2.hashCode ? '${uid1}_$uid2' : '${uid2}_$uid1';
   }
 
   @override
@@ -74,11 +75,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  print('Firestore Error: ${snapshot.error}');
+                  if (kDebugMode) {
+                    print('Firestore Error: ${snapshot.error}');
+                  }
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
                 if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 final messages = snapshot.data!.docs
                     .map((doc) => ChatMessage.fromMap(doc.data() as Map<String, dynamic>))
@@ -94,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       subtitle: Text(message.content),
                       trailing: Text(
                         message.timestamp.toDate().toString(),
-                        style: TextStyle(fontSize: 10),
+                        style: const TextStyle(fontSize: 10),
                       ),
                     );
                   },
@@ -109,11 +112,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
-                    decoration: InputDecoration(labelText: 'Enter message'),
+                    decoration: const InputDecoration(labelText: 'Enter message'),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: _sendMessage,
                 ),
               ],

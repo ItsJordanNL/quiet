@@ -4,11 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'chat_screen.dart';  // Import the ChatScreen
 
 class UserListScreen extends StatefulWidget {
+  const UserListScreen({super.key});
+
   @override
-  _UserListScreenState createState() => _UserListScreenState();
+  UserListScreenState createState() => UserListScreenState();
 }
 
-class _UserListScreenState extends State<UserListScreen> {
+class UserListScreenState extends State<UserListScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _currentUser;
 
@@ -22,7 +24,7 @@ class _UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User List'),
+        title: const Text('User List'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('users').snapshots(),
@@ -31,7 +33,7 @@ class _UserListScreenState extends State<UserListScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           final users = snapshot.data!.docs.where((doc) => doc.id != _currentUser!.uid).toList();
           return ListView.builder(
