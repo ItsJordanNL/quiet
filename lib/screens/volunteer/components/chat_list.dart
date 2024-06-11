@@ -12,11 +12,24 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _currentUser;
-  
+  Map<String, String> _userNames = {};
+
   @override
   void initState() {
     super.initState();
     _currentUser = _auth.currentUser;
+    _fetchUserNames();
+  }
+
+  Future<void> _fetchUserNames() async {
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').get();
+    Map<String, String> names = {};
+    userSnapshot.docs.forEach((doc) {
+      names[doc.id] = doc['naam'];
+    });
+    setState(() {
+      _userNames = names;
+    });
   }
 
   void _sendMessage() {
@@ -41,8 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('messages')
-                  .where('participants',
-                      arrayContainsAny: [_currentUser?.uid ?? '', 'User123'])
+                  .where('participants', arrayContainsAny: [_currentUser?.uid ?? '', 'User123'])
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
@@ -50,21 +62,20 @@ class _ChatScreenState extends State<ChatScreen> {
                   print('Firestore Error: ${snapshot.error}');
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                if (!snapshot.hasData ||
-                    snapshot.connectionState == ConnectionState.waiting) {
+                if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
                 final messages = snapshot.data!.docs
-                    .map((doc) =>
-                        ChatMessage.fromMap(doc.data() as Map<String, dynamic>))
+                    .map((doc) => ChatMessage.fromMap(doc.data() as Map<String, dynamic>))
                     .toList();
                 return ListView.builder(
                   reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message = messages[index];
+                    final senderName = _userNames[message.sender] ?? message.sender;
                     return ListTile(
-                      title: Text(message.sender),
+                      title: Text(senderName),
                       subtitle: Text(message.content),
                       trailing: Text(
                         message.timestamp.toDate().toString(),
