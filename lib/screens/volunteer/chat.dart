@@ -10,8 +10,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +18,7 @@ class _ChatPageState extends State<ChatPage> {
         style: TextStyle(color: Colors.white)),
         backgroundColor: primary,
       ),
-      body: UserListScreen(),
+      body: const UserListScreen(),
     );
   }
 }
