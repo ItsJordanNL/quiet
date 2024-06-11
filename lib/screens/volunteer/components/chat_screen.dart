@@ -39,15 +39,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty && _currentUser != null) {
+      String combinedId = _getCombinedId(_currentUser!.uid, widget.receiverId);
+
       FirebaseFirestore.instance.collection('messages').add({
         'content': _controller.text,
         'sender': _currentUser!.uid,
         'receiver': widget.receiverId,
         'participants': [widget.receiverId, _currentUser!.uid],
+        'combinedId': combinedId,
         'timestamp': FieldValue.serverTimestamp(),
       });
       _controller.clear();
     }
+  }
+
+  String _getCombinedId(String uid1, String uid2) {
+    return uid1.hashCode <= uid2.hashCode ? '$uid1\_$uid2' : '$uid2\_$uid1';
   }
 
   @override
@@ -62,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('messages')
-                  .where('participants', arrayContainsAny: [_currentUser?.uid ?? '', widget.receiverId])
+                  .where('combinedId', isEqualTo: _getCombinedId(_currentUser!.uid, widget.receiverId))
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
