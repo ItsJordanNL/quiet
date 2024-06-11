@@ -10,8 +10,8 @@ class SortingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40, // Adjust width as needed
-      height: 40, // Adjust height as needed
+      width: 40,
+      height: 40,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

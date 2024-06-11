@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'chat-list.dart'; // Import the combined chat model and list
-import 'chat-detail.dart'; // Import the chat detail page
-import 'time-button.dart'; // Import the SortingButton widget
-import 'alphabetic-button.dart'; // Import the AlphabeticButton widget
+import 'chat-list.dart';
+import 'chat-detail.dart';
+import 'time-button.dart';
+import 'alphabetic-button.dart';
+import 'status-button.dart';
 
 class ChatListPage extends StatefulWidget {
   @override
@@ -16,39 +17,59 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text(''),
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SortingButton(
-                sortByNewest: _sortByNewest,
-                onPressed: () {
-                  setState(() {
-                    _sortByNewest = !_sortByNewest;
-                    _sortChats();
-                  });
-                },
-              ),
-              AlphabeticButton(
-                chats: chats,
-                onPressed: (sortedChats) {
-                  setState(() {
-                    chats.clear();
-                    chats.addAll(sortedChats);
-                  });
-                },
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0), // Increased horizontal padding
+                  child: SortingButton(
+                    sortByNewest: _sortByNewest,
+                    onPressed: () {
+                      setState(() {
+                        _sortByNewest = !_sortByNewest;
+                        _sortChats();
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0), // Increased horizontal padding
+                  child: AlphabeticButton(
+                    chats: chats,
+                    onPressed: (sortedChats) {
+                      setState(() {
+                        chats.clear();
+                        chats.addAll(sortedChats);
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0), // Increased horizontal padding
+                  child: StatusButton(
+                    onPressed: () {
+                      setState(() {
+                        _prioritizeChats();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
               itemCount: chats.length,
               itemBuilder: (context, index) {
                 final chat = chats[index];
                 return ListTile(
+                  leading: _buildStatusIndicator(chat.status),
                   title: Text(
                     chat.name,
                     style: const TextStyle(
@@ -75,7 +96,18 @@ class _ChatListPageState extends State<ChatListPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatDetailPage(chat: chat),
+                        builder: (context) => ChatDetailPage(
+                          chat: chat,
+                          updateStatus: (updatedChat, newStatus) {
+                            setState(() {
+                              // Update the status of the chat in the list 'chats'
+                              final index = chats.indexOf(chat);
+                              if (index != -1) {
+                                chats[index].status = newStatus;
+                              }
+                            });
+                          },
+                        ),
                       ),
                     );
                   },
@@ -85,6 +117,26 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildStatusIndicator(String status) {
+    Color color;
+    switch (status) {
+      case 'geholpen':
+        color = Colors.green;
+        break;
+      case 'inproces':
+        color = Colors.orange;
+        break;
+      case 'heefthulpnodig':
+      default:
+        color = Colors.red;
+        break;
+    }
+    return CircleAvatar(
+      radius: 5,
+      backgroundColor: color,
     );
   }
 
@@ -105,5 +157,21 @@ class _ChatListPageState extends State<ChatListPage> {
     } else {
       chats.sort((a, b) => a.timestamp.compareTo(b.timestamp));
     }
+  }
+
+  void _prioritizeChats() {
+    chats.sort((a, b) {
+      if (a.status == 'heefthulpnodig' && b.status != 'heefthulpnodig') {
+        return -1;
+      } else if (a.status == 'inproces' && b.status != 'heefthulpnodig' && b.status != 'inproces') {
+        return -1;
+      } else if (a.status != 'heefthulpnodig' && b.status == 'heefthulpnodig') {
+        return 1;
+      } else if (a.status != 'heefthulpnodig' && a.status != 'inproces' && b.status == 'inproces') {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 }
