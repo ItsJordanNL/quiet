@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiet_app/screens/volunteer/components/chat-overview.dart';
 import 'package:quiet_app/constants/constants.dart';
+import 'package:quiet_app/screens/volunteer/components/chat_list.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -16,11 +16,11 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Berichten",
+        title: const Text("Berichten",
         style: TextStyle(color: Colors.white)),
         backgroundColor: primary,
       ),
-      body: ChatListPage(),
+      body: UserListScreen(),
     );
   }
 }

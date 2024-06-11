@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/screens/member/member.dart';
@@ -7,11 +8,13 @@ import 'package:quiet_app/screens/sponsor/sponsor.dart';
 import 'package:quiet_app/screens/volunteer/volunteer.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -25,7 +28,9 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleForgotPassword() {
     // Implement your logic for handling forgotten password
-    print('Forgot password clicked');
+    if (kDebugMode) {
+      print('Forgot password clicked');
+    }
   }
 
   Future<FirebaseApp> _initializeFirebase() async {
@@ -44,7 +49,9 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text.trim(),
       );
       // Handle successful login
-      print('Login successful: ${userCredential.user}');
+      if (kDebugMode) {
+        print('Login successful: ${userCredential.user}');
+      }
 
       // Determine the type of user
       String userType = await _getUserType(userCredential.user!.email!);
@@ -52,8 +59,9 @@ class _LoginPageState extends State<LoginPage> {
       if (userType == 'unknown') {
         // Log the user out if the type is unknown
         await FirebaseAuth.instance.signOut();
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: User type not recognized')),
+          const SnackBar(content: Text('Login failed: User type not recognized')),
         );
       } else {
         // Navigate to the appropriate page based on user type
@@ -65,13 +73,17 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           targetPage = const SponsorMain();
         }
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => targetPage),
         );
       }
     } on FirebaseAuthException catch (e) {
       // Handle login error
-      print('Login failed: $e');
+      if (kDebugMode) {
+        print('Login failed: $e');
+      }
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login failed: ${e.message}')),
       );
@@ -101,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: primaryText,
       body: FutureBuilder(
         future: _initializeFirebase(),
         builder: (context, snapshot) {
@@ -116,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Stack LoginStack() {
     return Stack(
       children: <Widget>[
@@ -123,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
           top: -405.0,
           left: -267.0,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: primary,
               shape: BoxShape.circle,
             ),
@@ -136,22 +149,22 @@ class _LoginPageState extends State<LoginPage> {
           left: 0,
           right: 0,
           child: Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
+                const Text(
                   'Inloggen',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: primaryText,
                     fontSize: 40.0,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  text: const TextSpan(
+                    style: TextStyle(color: secondaryText, fontSize: 16.0),
                     children: <TextSpan>[
                       TextSpan(
                         text: 'Welkom terug!',
@@ -161,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -170,13 +183,13 @@ class _LoginPageState extends State<LoginPage> {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         blurRadius: 5.0,
-                        offset: Offset(0, 3.0),
+                        offset: const Offset(0, 3.0),
                       ),
                     ],
                   ),
                   child: TextField(
                     controller: _usernameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Gebruikersnaam',
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 15.0, vertical: 10.0),
@@ -184,16 +197,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: primaryText,
                     borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         blurRadius: 5.0,
-                        offset: Offset(0, 3.0),
+                        offset: const Offset(0, 3.0),
                       ),
                     ],
                   ),
@@ -201,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _passwordController,
                     decoration: InputDecoration(
                       labelText: 'Wachtwoord',
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           horizontal: 15.0, vertical: 10.0),
                       border: InputBorder.none,
                       suffixIcon: IconButton(
@@ -214,12 +227,12 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscurePassword,
                   ),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _handleForgotPassword,
-                    child: Text(
+                    child: const Text(
                       'Wachtwoord vergeten?',
                       style: TextStyle(color: Colors.grey, fontSize: 13.0),
                     ),
@@ -229,22 +242,21 @@ class _LoginPageState extends State<LoginPage> {
                   width: 200.0,
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _login,
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(primary),
+                      foregroundColor: WidgetStateProperty.all(primaryText),
+                    ),
                     child: _isLoading
-                        ? CircularProgressIndicator(
+                        ? const CircularProgressIndicator(
                             valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                                AlwaysStoppedAnimation<Color>(primaryText),
                           )
-                        : Text(
+                        : const Text(
                             'Inloggen',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromARGB(255, 134, 168, 39)),
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
                   ),
                 ),
               ],
