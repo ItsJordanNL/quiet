@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:quiet_app/screens/member/components/voucherlist.dart";
 // import "package:quiet_app/screens/member/components/voucherlist.dart";
 
 class VouchersPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _VouchersPageState extends State<VouchersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Choose a voucher"),),
-      // body: const VoucherList(),
+      body: const VoucherList(),
     );
   }
 }
