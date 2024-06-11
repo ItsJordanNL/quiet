@@ -12,8 +12,9 @@ class Message {
 
 class ChatDetailPage extends StatefulWidget {
   final Chat chat;
+  final Function(Chat, String) updateStatus; // Add this line
 
-  ChatDetailPage({required this.chat});
+  ChatDetailPage({required this.chat, required this.updateStatus}); // Update constructor
 
   @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
@@ -22,12 +23,13 @@ class ChatDetailPage extends StatefulWidget {
 class _ChatDetailPageState extends State<ChatDetailPage> {
   final TextEditingController _controller = TextEditingController();
   final List<Message> _messages = [];
+  late String status;
 
   @override
   void initState() {
     super.initState();
-    // Initialize with the last message as received
     _messages.add(Message(text: widget.chat.lastMessage, isSentByUser: false));
+    status = widget.chat.status;
   }
 
   void _sendMessage() {
@@ -39,6 +41,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     }
   }
 
+  void _changeStatus(String newStatus) {
+    setState(() {
+      status = newStatus;
+      widget.updateStatus(widget.chat, newStatus); // Call the callback function
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +57,26 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: primary,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert), color: Colors.white,
+            onSelected: _changeStatus,
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'geholpen',
+                child: Text('Geholpen'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'inproces',
+                child: Text('In proces'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'heefthulpnodig',
+                child: Text('Heeft hulp nodig'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -77,7 +106,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 30.0), // Add padding to push the input bar up
+            padding: const EdgeInsets.only(bottom: 30.0),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Row(
