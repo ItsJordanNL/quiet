@@ -1,110 +1,61 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quiet_app/screens/volunteer/components/chat_model.dart';
+import 'chat_screen.dart';  // Import the ChatScreen
 
-class ChatScreen extends StatefulWidget {
+class UserListScreen extends StatefulWidget {
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  _UserListScreenState createState() => _UserListScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
-  final TextEditingController _controller = TextEditingController();
+class _UserListScreenState extends State<UserListScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _currentUser;
-  Map<String, String> _userNames = {};
 
   @override
   void initState() {
     super.initState();
     _currentUser = _auth.currentUser;
-    _fetchUserNames();
-  }
-
-  Future<void> _fetchUserNames() async {
-    QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').get();
-    Map<String, String> names = {};
-    userSnapshot.docs.forEach((doc) {
-      names[doc.id] = doc['naam'];
-    });
-    setState(() {
-      _userNames = names;
-    });
-  }
-
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty && _currentUser != null) {
-      FirebaseFirestore.instance.collection('messages').add({
-        'content': _controller.text,
-        'sender': _currentUser!.uid,
-        'receiver': 'User123', // This should be dynamically set based on the chat context
-        'participants': ['User123', _currentUser!.uid],
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-      _controller.clear();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('messages')
-                  .where('participants', arrayContainsAny: [_currentUser?.uid ?? '', 'User123'])
-                  .orderBy('timestamp', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  print('Firestore Error: ${snapshot.error}');
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-                if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                final messages = snapshot.data!.docs
-                    .map((doc) => ChatMessage.fromMap(doc.data() as Map<String, dynamic>))
-                    .toList();
-                return ListView.builder(
-                  reverse: true,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    final senderName = _userNames[message.sender] ?? message.sender;
-                    return ListTile(
-                      title: Text(senderName),
-                      subtitle: Text(message.content),
-                      trailing: Text(
-                        message.timestamp.toDate().toString(),
-                        style: TextStyle(fontSize: 10),
+      appBar: AppBar(
+        title: Text('User List'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          final users = snapshot.data!.docs.where((doc) => doc.id != _currentUser!.uid).toList();
+          return ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+              final userName = user['naam'];
+              return ListTile(
+                title: Text(userName),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatScreen(
+                        receiverId: user.id,
+                        receiverName: userName,
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(labelText: 'Enter message'),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: _sendMessage,
-                ),
-              ],
-            ),
-          ),
-        ],
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }
