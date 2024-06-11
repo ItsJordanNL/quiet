@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quiet_app/constants/constants.dart';
 
-class SortingButton extends StatelessWidget {
-  final bool sortByNewest;
+class StatusButton extends StatelessWidget {
   final Function() onPressed;
 
-  SortingButton({required this.sortByNewest, required this.onPressed});
+  const StatusButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +14,12 @@ class SortingButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          shape: CircleBorder(),
-          padding: EdgeInsets.all(10.0),
-          backgroundColor: primary,
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(10.0),
+          backgroundColor: primary // Customize button color
         ),
         child: const Icon(
-          Icons.timelapse,
+          Icons.check,
           color: Colors.white,
           size: 20.0,
         ),
