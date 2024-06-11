@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quiet_app/screens/volunteer/components/chat_model.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -9,14 +10,22 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _currentUser;
+  
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = _auth.currentUser;
+  }
 
   void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
+    if (_controller.text.isNotEmpty && _currentUser != null) {
       FirebaseFirestore.instance.collection('messages').add({
         'content': _controller.text,
-        'sender': 'User456', // Huidige gebruiker
-        'receiver': 'User123', // Ontvanger
-        'participants': ['User123', 'User456'],
+        'sender': _currentUser!.uid,
+        'receiver': 'User123', // This should be dynamically set based on the chat context
+        'participants': ['User123', _currentUser!.uid],
         'timestamp': FieldValue.serverTimestamp(),
       });
       _controller.clear();
@@ -33,7 +42,7 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: FirebaseFirestore.instance
                   .collection('messages')
                   .where('participants',
-                      arrayContainsAny: ['User123', 'User456'])
+                      arrayContainsAny: [_currentUser?.uid ?? '', 'User123'])
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
