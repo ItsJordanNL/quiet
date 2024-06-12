@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:quiet_app/constants/constants.dart';
 import 'chat_screen.dart'; // Import the ChatScreen
 
 class UserListScreen extends StatefulWidget {
@@ -28,8 +29,7 @@ class UserListScreenState extends State<UserListScreen> {
 
   String formatTimestamp(Timestamp timestamp) {
     final dateTime = timestamp.toDate();
-    final formattedDate =
-        DateFormat('HH:mm @ dd-MM').format(dateTime);
+    final formattedDate = DateFormat('HH:mm @ dd-MM').format(dateTime);
     return formattedDate;
   }
 
@@ -111,7 +111,6 @@ class UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Gebruikers'),
         actions: [
           PopupMenuButton<SortMode>(
             onSelected: (SortMode result) {
@@ -136,7 +135,7 @@ class UserListScreenState extends State<UserListScreen> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
+          preferredSize: const Size.fromHeight(0.0),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextField(
@@ -145,7 +144,7 @@ class UserListScreenState extends State<UserListScreen> {
                 hintText: 'Zoek gebruikers...',
                 border: InputBorder.none,
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: primaryText,
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -229,7 +228,10 @@ class UserListScreenState extends State<UserListScreen> {
                             ),
                             const SizedBox(
                                 width: 8), // Space between dot and text
-                            Text(userName, style: const TextStyle(fontWeight: FontWeight.bold,)),
+                            Text(userName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
                           ],
                         ),
                         if (lastMessageTime != null)
