@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:quiet_app/screens/volunteer/components/chat_model.dart';
+import 'package:quiet_app/global/chat_model.dart';
 import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
