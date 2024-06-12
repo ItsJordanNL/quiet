@@ -1,17 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-
-// import 'package:pie_chart/pie_chart.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/widgets.dart';
 import 'package:quiet_app/constants/constants.dart';
-
-Map<String, double> dataMap = {
-  "8 Openstaande vragen": 8,
-  "7 In behandeling": 7,
-  "8 Afgehandeld": 8,
-};
 
 class DashboardTickets extends StatefulWidget {
   const DashboardTickets({super.key});
@@ -28,6 +17,7 @@ class _DashboardTicketsState extends State<DashboardTickets> {
       children: [
         Stack(
           children: [
+            // donut chart
             SizedBox(
               height: 180,
               width: 180,
@@ -39,6 +29,7 @@ class _DashboardTicketsState extends State<DashboardTickets> {
                 ),
               ),
             ),
+            // Text in donut chart
             Container(
               margin: const EdgeInsets.only(
                 top: 52,
@@ -68,6 +59,7 @@ class _DashboardTicketsState extends State<DashboardTickets> {
             ),
           ],
         ),
+        // legend
         Padding(
           padding: const EdgeInsets.only(top: 33),
           child: Column(
@@ -80,6 +72,7 @@ class _DashboardTicketsState extends State<DashboardTickets> {
     );
   }
 
+// Colors and value donut chart
   List<PieChartSectionData> showingSections() {
     return [
       PieChartSectionData(
@@ -103,6 +96,7 @@ class _DashboardTicketsState extends State<DashboardTickets> {
     ];
   }
 
+// Legend items
   List<Widget> legendItems() {
     return [
       const LegendItem(
@@ -120,12 +114,13 @@ class _DashboardTicketsState extends State<DashboardTickets> {
   }
 }
 
+// legend variables
 class LegendItem extends StatelessWidget {
   final Color color;
   final String text;
 
   const LegendItem({required this.color, required this.text});
-
+// UI legend
   @override
   Widget build(BuildContext context) {
     return Row(
