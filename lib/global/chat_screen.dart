@@ -6,7 +6,6 @@ import 'package:quiet_app/global/chat_model.dart';
 import 'package:intl/intl.dart';
 import "package:quiet_app/constants/constants.dart";
 
-
 class ChatScreen extends StatefulWidget {
   final String receiverId;
   final String receiverName;
@@ -23,12 +22,14 @@ class ChatScreenState extends State<ChatScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _currentUser;
   Map<String, String> _userNames = {};
+  int _receiverStatus = 0;
 
   @override
   void initState() {
     super.initState();
     _currentUser = _auth.currentUser;
     _fetchUserNames();
+    _fetchReceiverStatus();
   }
 
   String formatTimestamp(Timestamp timestamp) {
@@ -45,6 +46,16 @@ class ChatScreenState extends State<ChatScreen> {
     }
     setState(() {
       _userNames = names;
+    });
+  }
+
+  Future<void> _fetchReceiverStatus() async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.receiverId)
+        .get();
+    setState(() {
+      _receiverStatus = userDoc['status'];
     });
   }
 
@@ -77,11 +88,44 @@ class ChatScreenState extends State<ChatScreen> {
         currentDate.year != previousDate.year;
   }
 
+  Future<void> _updateReceiverStatus(int newStatus) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.receiverId)
+        .update({'status': newStatus});
+    setState(() {
+      _receiverStatus = newStatus;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat met ${widget.receiverName}'),
+        title: Text(widget.receiverName),
+        actions: [
+          if (_receiverStatus != 3)
+            PopupMenuButton<int>(
+              icon: const Icon(Icons.check_box_outlined),
+              onSelected: (int status) {
+                _updateReceiverStatus(status);
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Text('Moet geholpen worden'),
+                ),
+                const PopupMenuItem<int>(
+                  value: 1,
+                  child: Text('Wordt geholpen'),
+                ),
+                const PopupMenuItem<int>(
+                  value: 2,
+                  child: Text('Is al geholpen'),
+                ),
+              ],
+            ),
+        ],
       ),
       body: Column(
         children: [

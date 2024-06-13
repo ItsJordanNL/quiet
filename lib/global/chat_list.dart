@@ -111,41 +111,55 @@ class UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          PopupMenuButton<SortMode>(
-            onSelected: (SortMode result) {
-              setState(() {
-                _selectedSortMode = result;
-              });
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
-              const PopupMenuItem<SortMode>(
-                value: SortMode.recent,
-                child: Text('Recent'),
-              ),
-              const PopupMenuItem<SortMode>(
-                value: SortMode.status,
-                child: Text('Status'),
-              ),
-              const PopupMenuItem<SortMode>(
-                value: SortMode.alphabetical,
-                child: Text('Alfabetisch'),
-              ),
-            ],
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        title: Row(
+          children: [
+            const Text(
+              'Berichten',
+              style: TextStyle(color: Colors.white),
+            ),
+            const Spacer(), // This will push the PopupMenuButton to the right
+            PopupMenuButton<SortMode>(
+              icon: const Icon(Icons.sort_rounded, color: Colors.white),
+              onSelected: (SortMode result) {
+                setState(() {
+                  _selectedSortMode = result;
+                });
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
+                const PopupMenuItem<SortMode>(
+                  value: SortMode.recent,
+                  child: Text('Recent'),
+                ),
+                const PopupMenuItem<SortMode>(
+                  value: SortMode.status,
+                  child: Text('Status'),
+                ),
+                const PopupMenuItem<SortMode>(
+                  value: SortMode.alphabetical,
+                  child: Text('Alfabetisch'),
+                ),
+              ],
+            ),
+          ],
+        ),
+        backgroundColor: primary,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Zoek gebruikers...',
-                border: InputBorder.none,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide.none,
+                ),
                 filled: true,
-                fillColor: primaryText,
-                prefixIcon: Icon(Icons.search),
+                fillColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(vertical: 10.0), // Adjust vertical padding
+                prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (value) {
                 setState(() {
@@ -154,119 +168,121 @@ class UserListScreenState extends State<UserListScreen> {
               },
             ),
           ),
-        ),
-      ),
-      body: StreamBuilder<Map<String, dynamic>>(
-        stream: getLastMessageDetails(),
-        builder: (context, messageDetailsSnapshot) {
-          if (messageDetailsSnapshot.hasError) {
-            return Center(
-                child: Text('Error: ${messageDetailsSnapshot.error}'));
-          }
-          if (!messageDetailsSnapshot.hasData ||
-              messageDetailsSnapshot.connectionState ==
-                  ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          Expanded(
+            child: StreamBuilder<Map<String, dynamic>>(
+              stream: getLastMessageDetails(),
+              builder: (context, messageDetailsSnapshot) {
+                if (messageDetailsSnapshot.hasError) {
+                  return Center(
+                      child: Text('Error: ${messageDetailsSnapshot.error}'));
+                }
+                if (!messageDetailsSnapshot.hasData ||
+                    messageDetailsSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          final userLastMessageDetails = messageDetailsSnapshot.data!;
+                final userLastMessageDetails = messageDetailsSnapshot.data!;
 
-          return StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('users').snapshots(),
-            builder: (context, userSnapshot) {
-              if (userSnapshot.hasError) {
-                return Center(child: Text('Error: ${userSnapshot.error}'));
-              }
-              if (!userSnapshot.hasData ||
-                  userSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+                return StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                  builder: (context, userSnapshot) {
+                    if (userSnapshot.hasError) {
+                      return Center(child: Text('Error: ${userSnapshot.error}'));
+                    }
+                    if (!userSnapshot.hasData ||
+                        userSnapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-              var users = userSnapshot.data!.docs
-                  .where((doc) => doc.id != _currentUser!.uid)
-                  .toList();
+                    var users = userSnapshot.data!.docs
+                        .where((doc) => doc.id != _currentUser!.uid)
+                        .toList();
 
-              if (_searchQuery.isNotEmpty) {
-                users = users.where((user) {
-                  final userName = user['naam'].toString().toLowerCase();
-                  return userName.contains(_searchQuery);
-                }).toList();
-              }
+                    if (_searchQuery.isNotEmpty) {
+                      users = users.where((user) {
+                        final userName = user['naam'].toString().toLowerCase();
+                        return userName.contains(_searchQuery);
+                      }).toList();
+                    }
 
-              _sortUsers(users, userLastMessageDetails);
+                    _sortUsers(users, userLastMessageDetails);
 
-              return ListView.separated(
-                itemCount: users.length,
-                separatorBuilder: (context, index) =>
-                    const Divider(thickness: 1), // Add divider between items
-                itemBuilder: (context, index) {
-                  final user = users[index];
-                  final userName = user['naam'];
-                  final userId = user.id;
-                  final userStatus = user['status'] as int;
-                  final lastMessageDetails = userLastMessageDetails[userId];
-                  final lastMessageTime = lastMessageDetails != null
-                      ? formatTimestamp(lastMessageDetails['timestamp'])
-                      : null;
-                  final lastMessageContent = lastMessageDetails != null
-                      ? lastMessageDetails['content']
-                      : null;
+                    return ListView.separated(
+                      itemCount: users.length,
+                      separatorBuilder: (context, index) =>
+                          const Divider(thickness: 1), // Add divider between items
+                      itemBuilder: (context, index) {
+                        final user = users[index];
+                        final userName = user['naam'];
+                        final userId = user.id;
+                        final userStatus = user['status'] as int;
+                        final lastMessageDetails = userLastMessageDetails[userId];
+                        final lastMessageTime = lastMessageDetails != null
+                            ? formatTimestamp(lastMessageDetails['timestamp'])
+                            : null;
+                        final lastMessageContent = lastMessageDetails != null
+                            ? lastMessageDetails['content']
+                            : null;
 
-                  return ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 10,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: getStatusColor(userStatus),
-                                shape: BoxShape.circle,
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 10,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color: getStatusColor(userStatus),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      width: 8), // Space between dot and text
+                                  Text(userName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                ],
                               ),
-                            ),
-                            const SizedBox(
-                                width: 8), // Space between dot and text
-                            Text(userName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                          ],
-                        ),
-                        if (lastMessageTime != null)
-                          Text(
-                            lastMessageTime,
+                              if (lastMessageTime != null)
+                                Text(
+                                  lastMessageTime,
+                                  style: const TextStyle(
+                                      fontSize: 14), // Adjust the font size as needed
+                                ),
+                            ],
+                          ),
+                          subtitle: Text(
+                            lastMessageContent ?? 'Nog geen berichten...',
                             style: const TextStyle(
-                                fontSize: 14), // Adjust the font size as needed
+                                fontSize: 16), // Adjust the font size as needed
+                            maxLines: 1, // Limit to one line
+                            overflow: TextOverflow
+                                .ellipsis, // Show ellipsis if the text overflows
                           ),
-                      ],
-                    ),
-                    subtitle: Text(
-                      lastMessageContent ?? 'Nog geen berichten...',
-                      style: const TextStyle(
-                          fontSize: 16), // Adjust the font size as needed
-                      maxLines: 1, // Limit to one line
-                      overflow: TextOverflow
-                          .ellipsis, // Show ellipsis if the text overflows
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChatScreen(
-                            receiverId: user.id,
-                            receiverName: userName,
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatScreen(
+                                  receiverId: user.id,
+                                  receiverName: userName,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
