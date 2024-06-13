@@ -103,6 +103,8 @@ class ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.receiverName),
+        foregroundColor: primaryText,
+        backgroundColor: primary,
         actions: [
           if (_receiverStatus != 3)
             PopupMenuButton<int>(
@@ -274,7 +276,7 @@ class ChatScreenState extends State<ChatScreen> {
                         ),
                         IconButton(
                           icon:
-                              const Icon(Icons.send, color: Colors.blueAccent),
+                              const Icon(Icons.send, color: primary),
                           onPressed: _sendMessage,
                         ),
                       ],
