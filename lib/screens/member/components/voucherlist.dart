@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiet_app/constants/constants.dart';
+import 'package:quiet_app/screens/member/components/voucherinfo.dart';
 
 // Variabeles for vouchers
 class Voucher {
@@ -155,7 +156,9 @@ class _VoucherList extends State<VoucherList> {
                             backgroundColor:
                                 WidgetStateProperty.all<Color>(primary),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const VoucherInfo()),);
+                          },
                           child: const Row(
                             children: [
                               Text(
