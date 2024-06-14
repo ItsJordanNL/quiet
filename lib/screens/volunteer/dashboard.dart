@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiet_app/constants/constants.dart';
-import 'package:quiet_app/screens/volunteer/components/dashboard-tickets.dart';
+import 'package:quiet_app/screens/volunteer/components/dashboard-donutchart.dart';
+
+
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -24,7 +26,9 @@ class _DashboardPageState extends State<DashboardPage> {
           backgroundColor: primary,
         ),
       ),
-      body: const DashboardTickets(),
+      body: const SingleChildScrollView(
+        child: DashboardDonutchart(),
+      ),
     );
   }
 }
