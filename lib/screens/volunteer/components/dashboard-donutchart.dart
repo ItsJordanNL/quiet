@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:quiet_app/constants/constants.dart';
-
+import 'package:quiet_app/screens/volunteer/components/dashboard-question_filter.dart';
 
 
 class DashboardDonutchart extends StatefulWidget {
@@ -12,12 +12,10 @@ class DashboardDonutchart extends StatefulWidget {
 }
 
 class _DashboardDonutchartState extends State<DashboardDonutchart> {
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
       child: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,152 +72,73 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
             ),
           ],
         ),
+        const DashboardQuestionFilter()
         // question title and filter button
-        Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Vragen van Leden',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      shape: const CircleBorder(),
-                      padding: const EdgeInsets.all(10),
-                      backgroundColor: primary,
-                    ),
-                    child: const Icon(
-                      Icons.check,
-                      size: 20,
-                      color: backgroundColor,
-                    ),
-                  )),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 15),
-          width: 96,
-          height: 23,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: secondary,
-          ),
-          child: const Text(
-            'juni',
-            style: TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-        ),
-
-        // ticket
-
-        Card(
-            child: Row(children: [
-          Container(
-            margin: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(30),
-                    child: Image.asset('assets/images/member_truus.png',
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                const Text(
-                  'Truus Bekker',
-                  style: TextStyle(fontSize: 11),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 0),
-            width: 244,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Opacity(
-                        opacity: 0.85,
-                        child: Text('3-6-2024'),
-                      ),
-                      Container(
-                        width: 15,
-                        height: 15,
-                        decoration: const BoxDecoration(
-                            color: primary, shape: BoxShape.circle),
-                      )
-                    ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Voetbalwedstrijd PSV-Ajax # 1',
-                        style: TextStyle(
-                            fontSize: 15.5, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-                const Row(children: [
-                  Opacity(
-                    opacity: 0.5,
-                    child: Icon(Icons.person_outline_rounded),
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Opacity(
-                    opacity: 0.5,
-                    child: Text(
-                      'Sarah',
-                      style:TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ]),
-              ],
-            ),
-          )
-        ])),
+        // Container(
+        //   margin: const EdgeInsets.only(top: 20, bottom: 10),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //     children: [
+        //       const Text(
+        //         'Vragen van Leden',
+        //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        //       ),
+        //       SizedBox(
+        //           width: 40,
+        //           height: 40,
+        //           child: ElevatedButton(
+        //             onPressed: () {},
+        //             style: ElevatedButton.styleFrom(
+        //               shape: const CircleBorder(),
+        //               padding: const EdgeInsets.all(10),
+        //               backgroundColor: primary,
+        //             ),
+        //             child: const Icon(
+        //               Icons.check,
+        //               size: 20,
+        //               color: backgroundColor,
+        //             ),
+        //           )),
+        //     ],
+        //   ),
+        // ),
+        // Container(
+        //   margin: const EdgeInsets.only(bottom: 15),
+        //   width: 96,
+        //   height: 23,
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(8),
+        //     color: secondary,
+        //   ),
+        //   child: const Text(
+        //     'juni',
+        //     style: TextStyle(fontSize: 16),
+        //     textAlign: TextAlign.center,
+        //   ),
+        // ),
       ]),
     );
   }
+
+
 
 // Colors and value donut chart
   List<PieChartSectionData> showingSections() {
     return [
       PieChartSectionData(
-        color: Colors.red,
+        color: unanswered,
         value: 8,
         title: '',
         radius: 5,
       ),
       PieChartSectionData(
-        color: Colors.orange,
+        color: inprogress,
         value: 7,
         title: '',
         radius: 5,
       ),
       PieChartSectionData(
-        color: Colors.green,
+        color: primary,
         value: 8,
         title: '',
         radius: 5,
@@ -231,12 +150,12 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
   List<Widget> legendItems() {
     return [
       const LegendItem(
-          color: Color.fromARGB(255, 236, 12, 12), text: 'Openstaande vragen'),
+          color: unanswered, text: 'Openstaande vragen'),
       const SizedBox(
         height: 13,
       ),
       const LegendItem(
-          color: Color.fromARGB(255, 255, 147, 4), text: 'In behandeling'),
+          color: inprogress, text: 'In behandeling'),
       const SizedBox(
         height: 13,
       ),
@@ -271,5 +190,3 @@ class LegendItem extends StatelessWidget {
     );
   }
 }
-
-
