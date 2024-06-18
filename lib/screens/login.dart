@@ -20,6 +20,12 @@ class LoginPageState extends State<LoginPage> {
   bool _obscurePassword = true;
   bool _isLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkCurrentUser();
+  }
+
   void _toggle() {
     setState(() {
       _obscurePassword = !_obscurePassword;
@@ -36,6 +42,15 @@ class LoginPageState extends State<LoginPage> {
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     return firebaseApp;
+  }
+
+  Future<void> _checkCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // User is logged in, navigate to appropriate page
+      String userType = await _getUserType(user.email!);
+      _navigateToHome(userType);
+    }
   }
 
   Future<void> _login() async {
@@ -55,29 +70,7 @@ class LoginPageState extends State<LoginPage> {
 
       // Determine the type of user
       String userType = await _getUserType(userCredential.user!.email!);
-
-      if (userType == 'unknown') {
-        // Log the user out if the type is unknown
-        await FirebaseAuth.instance.signOut();
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed: User type not recognized')),
-        );
-      } else {
-        // Navigate to the appropriate page based on user type
-        Widget targetPage;
-        if (userType == 'member') {
-          targetPage = const MemberMain();
-        } else if (userType == 'volunteer') {
-          targetPage = const VolunteerMain();
-        } else {
-          targetPage = const SponsorMain();
-        }
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => targetPage),
-        );
-      }
+      _navigateToHome(userType);
     } on FirebaseAuthException catch (e) {
       // Handle login error
       if (kDebugMode) {
@@ -94,10 +87,32 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<void> _navigateToHome(String userType) async {
+    if (userType == 'unknown') {
+      // Log the user out if the type is unknown
+      await FirebaseAuth.instance.signOut();
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login failed: User type not recognized')),
+      );
+    } else {
+      // Navigate to the appropriate page based on user type
+      Widget targetPage;
+      if (userType == 'member') {
+        targetPage = const MemberMain();
+      } else if (userType == 'volunteer') {
+        targetPage = const VolunteerMain();
+      } else {
+        targetPage = const SponsorMain();
+      }
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => targetPage),
+      );
+    }
+  }
+
   Future<String> _getUserType(String email) async {
     // Implement logic to determine user type based on email
-    // For example, if the email contains "member", return "member"
-    // If the email contains "volunteer", return "volunteer"
     if (email.endsWith('member.quiet.nl')) {
       return 'member';
     } else if (email.endsWith('volunteer.quiet.nl')) {
@@ -118,7 +133,7 @@ class LoginPageState extends State<LoginPage> {
         future: _initializeFirebase(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return LoginStack();
+            return loginStack();
           }
           return const Center(
             child: CircularProgressIndicator(),
@@ -128,8 +143,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  // ignore: non_constant_identifier_names
-  Stack LoginStack() {
+  Stack loginStack() {
     return Stack(
       children: <Widget>[
         Positioned(
