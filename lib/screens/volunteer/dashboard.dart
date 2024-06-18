@@ -27,7 +27,7 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
         body: const Stack(
           children:[DashboardDonutchart(),
-          DashboardQuestionlist() ]),
-        );
+          DashboardQuestionlist()],
+        ));
   }
 }
