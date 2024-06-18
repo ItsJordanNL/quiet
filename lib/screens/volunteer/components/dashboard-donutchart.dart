@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:quiet_app/constants/constants.dart';
-import 'package:quiet_app/screens/volunteer/components/dashboard-question_filter.dart';
 
 
 class DashboardDonutchart extends StatefulWidget {
@@ -72,55 +71,9 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
             ),
           ],
         ),
-        const DashboardQuestionFilter()
-        // question title and filter button
-        // Container(
-        //   margin: const EdgeInsets.only(top: 20, bottom: 10),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       const Text(
-        //         'Vragen van Leden',
-        //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        //       ),
-        //       SizedBox(
-        //           width: 40,
-        //           height: 40,
-        //           child: ElevatedButton(
-        //             onPressed: () {},
-        //             style: ElevatedButton.styleFrom(
-        //               shape: const CircleBorder(),
-        //               padding: const EdgeInsets.all(10),
-        //               backgroundColor: primary,
-        //             ),
-        //             child: const Icon(
-        //               Icons.check,
-        //               size: 20,
-        //               color: backgroundColor,
-        //             ),
-        //           )),
-        //     ],
-        //   ),
-        // ),
-        // Container(
-        //   margin: const EdgeInsets.only(bottom: 15),
-        //   width: 96,
-        //   height: 23,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(8),
-        //     color: secondary,
-        //   ),
-        //   child: const Text(
-        //     'juni',
-        //     style: TextStyle(fontSize: 16),
-        //     textAlign: TextAlign.center,
-        //   ),
-        // ),
       ]),
     );
   }
-
-
 
 // Colors and value donut chart
   List<PieChartSectionData> showingSections() {
@@ -149,13 +102,11 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
 // Legend items
   List<Widget> legendItems() {
     return [
-      const LegendItem(
-          color: unanswered, text: 'Openstaande vragen'),
+      const LegendItem(color: unanswered, text: 'Openstaande vragen'),
       const SizedBox(
         height: 13,
       ),
-      const LegendItem(
-          color: inprogress, text: 'In behandeling'),
+      const LegendItem(color: inprogress, text: 'In behandeling'),
       const SizedBox(
         height: 13,
       ),
