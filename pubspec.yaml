@@ -38,8 +38,8 @@ dependencies:
   firebase_core: ^2.32.0
   firebase_auth: ^4.20.0
   fl_chart: ^0.68.0
-  
-
+  cloud_firestore: ^4.17.5
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +68,11 @@ flutter:
     - assets/images/member_truus.png
     - assets/images/member_joost.png
     - assets/images/member_bea.png
+    - assets/images/museum_mauritshuis.png
+    - assets/images/ouwehands_panda.png
+    - assets/images/psv_wedstrijd.png
+    - assets/images/psv_wedstrijd2.png
+    - assets/images/zusje.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
