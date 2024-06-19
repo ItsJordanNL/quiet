@@ -42,7 +42,7 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
                   child: const Column(
                     children: [
                       Text(
-                        '23',
+                        '6',
                         style: TextStyle(
                           height: 0,
                           fontSize: 30,
@@ -80,19 +80,19 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
     return [
       PieChartSectionData(
         color: unanswered,
-        value: 8,
+        value: 2,
         title: '',
         radius: 5,
       ),
       PieChartSectionData(
         color: inprogress,
-        value: 7,
+        value: 3,
         title: '',
         radius: 5,
       ),
       PieChartSectionData(
         color: primary,
-        value: 8,
+        value: 1,
         title: '',
         radius: 5,
       ),
@@ -102,15 +102,15 @@ class _DashboardDonutchartState extends State<DashboardDonutchart> {
 // Legend items
   List<Widget> legendItems() {
     return [
-      const LegendItem(color: unanswered, text: 'Openstaande vragen'),
+      const LegendItem(color: unanswered, text: '3 Openstaande vragen'),
       const SizedBox(
         height: 13,
       ),
-      const LegendItem(color: inprogress, text: 'In behandeling'),
+      const LegendItem(color: inprogress, text: '2 In behandeling'),
       const SizedBox(
         height: 13,
       ),
-      const LegendItem(color: primary, text: 'Afgehandeld'),
+      const LegendItem(color: primary, text: '1 Afgehandeld'),
     ];
   }
 }
