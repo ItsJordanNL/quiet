@@ -73,6 +73,10 @@ flutter:
     - assets/images/psv_wedstrijd.png
     - assets/images/psv_wedstrijd2.png
     - assets/images/zusje.png
+    - assets/images/member_fleur.png
+    - assets/images/member_sasha.png
+    - assets/images/member_lotte.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
