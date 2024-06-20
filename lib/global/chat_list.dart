@@ -33,17 +33,17 @@ class UserListScreenState extends State<UserListScreen> {
     return formattedDate;
   }
 
-  Color getStatusColor(int status) {
+  Icon getStatusIcon(int status) {
     switch (status) {
       case 0:
-        return Colors.red;
+        return const Icon(Icons.help_outline_rounded, color: Colors.red); // Red question mark
       case 1:
-        return Colors.orange;
+        return const Icon(Icons.support_agent_rounded, color: Colors.orange); // Orange group
       case 2:
-        return Colors.green;
+        return const Icon(Icons.check_circle_outline_rounded, color: Colors.green); // Green check mark
       case 3:
       default:
-        return Colors.grey;
+        return const Icon(Icons.chat_outlined, color: Colors.grey); // Grey chat bubble
     }
   }
 
@@ -231,16 +231,9 @@ class UserListScreenState extends State<UserListScreen> {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      color: getStatusColor(userStatus),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
+                                  getStatusIcon(userStatus),
                                   const SizedBox(
-                                      width: 8), // Space between dot and text
+                                      width: 8), // Space between icon and text
                                   Text(userName,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
