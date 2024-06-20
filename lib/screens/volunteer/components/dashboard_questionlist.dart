@@ -21,23 +21,27 @@ class Ticket {
     required this.nameVolunteer,
   });
 }
+// Sorting for priority of ticketstatus
+bool ascendingOrder = true;
 
 class DashboardQuestionlist extends StatefulWidget {
-  const DashboardQuestionlist({super.key});
+  final String nameVolunteer;
+
+  const DashboardQuestionlist({super.key, required this.nameVolunteer});
 
   @override
   State<DashboardQuestionlist> createState() => _DashboardQuestionlistState();
 }
-
+// List of tickets
 class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
   List<Ticket> tickets = [
     Ticket(
       memberPicture: 'assets/images/member_truus.png',
       memberName: "Truus Bekker",
-      date: "3-6-2024",
+      date: "3-6-3024",
       status: primary,
       textStatus: 'Afgehandeld',
-      titleVoucher: "Voetbalwedstrijd PSV-Ajax #1",
+      titleVoucher: "Voetbalwedstrijd Ajax-PSV #1",
       nameVolunteer: "Sarah",
     ),
     Ticket(
@@ -58,8 +62,35 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
       titleVoucher: "Ouwehands Dierenpark #3",
       nameVolunteer: "",
     ),
+    Ticket(
+      memberPicture: 'assets/images/member_fleur.png',
+      memberName: "Fleur de \n Vries",
+      date: "12-6-2024",
+      status: inprogress,
+      textStatus: 'In behandeling',
+      titleVoucher: "Zwembad voucher #4",
+      nameVolunteer: "Jordan",
+    ),
+    Ticket(
+      memberPicture: 'assets/images/member_sasha.png',
+      memberName: "Sasha \n Bouwels",
+      date: "12-6-2024",
+      status: inprogress,
+      textStatus: 'In behandeling',
+      titleVoucher: "Kapper voucher #5",
+      nameVolunteer: "Jordan",
+    ),
+    Ticket(
+      memberPicture: 'assets/images/member_lotte.png',
+      memberName: "Lotte van der \n Meer",
+      date: "12-6-2024",
+      status: unanswered,
+      textStatus: 'Openstaand',
+      titleVoucher: "Museum Mauritshuis #6",
+      nameVolunteer: "",
+    ),
   ];
-
+// Dropdown menu
   final List<String> _dropdownItems = ['Vragen van Leden', 'Vragen voor Jou'];
   String _selectedItem = 'Vragen van Leden';
 
@@ -68,10 +99,11 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
       return tickets;
     } else if (_selectedItem == 'Vragen voor Jou') {
       return tickets
-          .where((ticket) => ticket.nameVolunteer == "Sarah")
+      // selects the volunteer who is logged in
+          .where((ticket) => ticket.nameVolunteer == widget.nameVolunteer)
           .toList();
     }
-    return tickets; // Return original list if no match
+    return tickets; 
   }
 
   @override
@@ -113,11 +145,41 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                   );
                 }).toList(),
               ),
+              // Status filter button
               SizedBox(
                 width: 40,
                 height: 40,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Define the order of statuses
+                    List<String> statusOrder = [
+                      'Afgehandeld',
+                      'In behandeling',
+                      'Openstaand'
+                    ];
+
+                    // Toggle sorting order
+                    ascendingOrder = !ascendingOrder;
+
+                    // Sort filteredTickets based on the selected order
+                    filteredTickets.sort((a, b) {
+                      int indexA = statusOrder.indexOf(a.textStatus);
+                      int indexB = statusOrder.indexOf(b.textStatus);
+
+                      // Determine sorting direction based on ascendingOrder flag
+                      if (ascendingOrder) {
+                        return indexA.compareTo(indexB); // Ascending order
+                      } else {
+                        return indexB.compareTo(indexA); // Descending order
+                      }
+                    });
+
+                    // Update the UI
+                    setState(() {
+                      // No need to set _selectedItem again if not changed
+                      // _selectedItem = _selectedItem;
+                    });
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(10),
@@ -133,7 +195,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
             ],
           ),
         ),
-        // Date 
+        // Date
         Container(
           margin: const EdgeInsets.only(bottom: 15),
           width: 96,
@@ -183,7 +245,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                     ),
                     Container(
                       margin: const EdgeInsets.only(right: 15),
-                      width: 244,
+                      width: 243,
                       child: Column(
                         children: [
                           Padding(
