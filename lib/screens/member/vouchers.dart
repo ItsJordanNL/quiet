@@ -46,7 +46,7 @@ class _VouchersPageState extends State<VouchersPage> {
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
           title: Text(
-            "Hey $_userName, wat wordt jouw \n geluksmomentje",
+            "Hey $_userName, wat wordt jouw \n geluksmomentje?",
             style: const TextStyle(
               color: primaryText,
               fontWeight: FontWeight.w600,
