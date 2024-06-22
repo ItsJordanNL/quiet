@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import "package:quiet_app/constants/constants.dart";
-import 'package:quiet_app/global/scan_qr_code.dart';
+import 'package:quiet_app/screens/sponsor/components/scan_qr_code.dart';
 
 class DonatiesPage extends StatefulWidget {
   const DonatiesPage({super.key});

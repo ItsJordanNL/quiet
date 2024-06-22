@@ -2,7 +2,7 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:quiet_app/screens/member/components/voucherlist.dart';
 import 'package:quiet_app/constants/constants.dart';
-import 'package:quiet_app/global/generate_qr_code.dart';
+import 'package:quiet_app/screens/member/components/generate_qr_code.dart';
 
 // Variable margin bottom
 const space = 15.0;
