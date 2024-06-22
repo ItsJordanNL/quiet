@@ -2,6 +2,7 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:quiet_app/screens/member/components/voucherlist.dart';
 import 'package:quiet_app/constants/constants.dart';
+import 'package:quiet_app/global/generate_qr_code.dart';
 
 // Variable margin bottom
 const space = 15.0;
@@ -12,10 +13,10 @@ class VoucherInfo extends StatefulWidget {
   const VoucherInfo({super.key, required this.voucher});
 
   @override
-  _VoucherInfoState createState() => _VoucherInfoState();
+  VoucherInfoState createState() => VoucherInfoState();
 }
 
-class _VoucherInfoState extends State<VoucherInfo> {
+class VoucherInfoState extends State<VoucherInfo> {
   // Function timer
   late Timer _timer;
   Duration _timeRemaining = const Duration();
@@ -219,7 +220,19 @@ class _VoucherInfoState extends State<VoucherInfo> {
                         style: ButtonStyle(
                             backgroundColor:
                                 WidgetStateProperty.all<Color>(primary)),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GenerateQRCode(
+                                      reservationName:
+                                          widget.voucher.titleVoucher,
+                                      reservationAmount: widget.voucher.persons,
+                                      reservationLocation:
+                                          widget.voucher.location,
+                                    )),
+                          );
+                        },
                         child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
