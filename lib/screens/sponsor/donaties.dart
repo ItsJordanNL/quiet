@@ -14,7 +14,7 @@ class _DonatiesPageState extends State<DonatiesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sponsor Account"),
+        title: const Text("Mijn Donaties"),
         foregroundColor: primaryText,
         backgroundColor: primary,
         actions: [
@@ -23,7 +23,7 @@ class _DonatiesPageState extends State<DonatiesPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ScanQRCode()),
+                MaterialPageRoute(builder: (context) => const ScanQRCode()),
               );
             },
           ),
