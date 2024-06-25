@@ -28,7 +28,7 @@ class _SponsorMainState extends State<SponsorMain> {
         children: [
           const Divider(
             height: 1,
-            color: Colors.grey,
+            color: Colors.black12,
           ),
           NavigationBarTheme(
             data: const NavigationBarThemeData(indicatorColor: primary),

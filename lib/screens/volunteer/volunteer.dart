@@ -28,7 +28,7 @@ class _VolunteerMainState extends State<VolunteerMain> {
         children: [
           const Divider(
             height: 1,
-            color: Colors.grey,
+            color: Colors.black12,
           ),
           NavigationBarTheme(
             data: const NavigationBarThemeData(indicatorColor: primary),

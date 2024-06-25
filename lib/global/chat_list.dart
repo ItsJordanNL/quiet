@@ -156,6 +156,9 @@ class UserListScreenState extends State<UserListScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                ),
                 hintText: 'Zoek gebruikers...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
