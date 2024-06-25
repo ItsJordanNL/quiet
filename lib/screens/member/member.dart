@@ -28,7 +28,7 @@ class _MemberMainState extends State<MemberMain> {
         children: [
           const Divider(
             height: 1,
-            color: Colors.grey, // Customize the color as needed
+            color: Colors.grey,
           ),
           NavigationBarTheme(
             data: const NavigationBarThemeData(indicatorColor: primary),
