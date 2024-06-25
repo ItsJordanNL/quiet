@@ -33,6 +33,7 @@ class _SponsorMainState extends State<SponsorMain> {
           NavigationBarTheme(
             data: const NavigationBarThemeData(indicatorColor: primary),
             child: NavigationBar(
+              backgroundColor: backgroundColor,
               selectedIndex: index,
               onDestinationSelected: (index) =>
                   setState(() => this.index = index),
