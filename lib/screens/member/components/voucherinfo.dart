@@ -2,6 +2,7 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:quiet_app/screens/member/components/voucherlist.dart';
 import 'package:quiet_app/constants/constants.dart';
+import 'package:quiet_app/screens/member/components/generate_qr_code.dart';
 
 class VoucherInfo extends StatefulWidget {
   final Voucher voucher;
@@ -9,10 +10,10 @@ class VoucherInfo extends StatefulWidget {
   const VoucherInfo({super.key, required this.voucher});
 
   @override
-  _VoucherInfoState createState() => _VoucherInfoState();
+  VoucherInfoState createState() => VoucherInfoState();
 }
 
-class _VoucherInfoState extends State<VoucherInfo> {
+class VoucherInfoState extends State<VoucherInfo> {
   // Function timer
   late Timer _timer;
   Duration _timeRemaining = const Duration();

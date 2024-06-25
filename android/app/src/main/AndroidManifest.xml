@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.silent.quiet">
     <application
-        android:label="quiet_app"
+        android:label="Quiet Eindhoven"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
