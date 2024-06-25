@@ -39,7 +39,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
   List<Ticket> tickets = [
     Ticket(
       memberPicture: 'assets/images/member_truus.png',
-      memberName: "Truus Bekker",
+      memberName: "Truus",
       date: "3-6-3024",
       status: primary,
       textStatus: 'Afgehandeld',
@@ -48,7 +48,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_joost.png',
-      memberName: "Joost Vries",
+      memberName: "Joost",
       date: "6-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -57,7 +57,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_bea.png',
-      memberName: "Bea Stipt",
+      memberName: "Bea",
       date: "12-6-2024",
       status: unanswered,
       textStatus: 'Openstaand',
@@ -66,7 +66,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_fleur.png',
-      memberName: "Fleur de \n Vries",
+      memberName: "Fleur",
       date: "12-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -75,7 +75,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_sasha.png',
-      memberName: "Sasha \n Bouwels",
+      memberName: "Sasha",
       date: "12-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -84,7 +84,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_lotte.png',
-      memberName: "Lotte van \n der Meer",
+      memberName: "Lotte",
       date: "12-6-2024",
       status: unanswered,
       textStatus: 'Openstaand',
@@ -110,12 +110,12 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
   }
 
   double responsiveFontsize(double screenWidth, double baseFontSize) {
-    return screenWidth * baseFontSize / 400; 
+    return screenWidth * baseFontSize / 400;
   }
 
   @override
   Widget build(BuildContext context) {
-    // create responsiveness 
+    // create responsiveness
     var screenSize = MediaQuery.of(context).size;
     var width = screenSize.width;
     var height = screenSize.height;
@@ -232,11 +232,13 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
               return Card(
                 margin: EdgeInsets.only(bottom: height * 0.02),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // picture and name member
                   children: [
                     Container(
                       margin: EdgeInsets.all(width * 0.04),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ClipOval(
                             child: SizedBox.fromSize(
@@ -245,7 +247,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                                   fit: BoxFit.cover),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: height * 0.0025),
                           Text(
                             ticket.memberName,
                             style: TextStyle(
@@ -263,8 +265,8 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: height * 0.01),
+                            Container(
+                              margin:  EdgeInsets.only(bottom: height * 0.01),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -299,8 +301,8 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                               ),
                             ),
                             // Title voucher
-                            Padding(
-                              padding: EdgeInsets.only(bottom: height * 0.01),
+                            Container(
+                              margin: EdgeInsets.only(bottom: height * 0.01),
                               child: Row(
                                 children: [
                                   Flexible(
