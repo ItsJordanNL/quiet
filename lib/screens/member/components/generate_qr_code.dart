@@ -32,7 +32,7 @@ class GenerateQRCode extends StatelessWidget {
         child: QrImageView(
           data: data,
           version: QrVersions.auto,
-          size: 200.0,
+          size: 250.0,
         ),
       ),
     );
