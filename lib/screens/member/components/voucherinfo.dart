@@ -82,7 +82,7 @@ class VoucherInfoState extends State<VoucherInfo> {
                 ),
               ),
               // Back button
-             Container(
+              Container(
                 margin: const EdgeInsets.only(top: 15),
                 child: SizedBox(
                   height: 45,
@@ -135,7 +135,9 @@ class VoucherInfoState extends State<VoucherInfo> {
                     ),
                   ],
                 ),
-                const Spacer(flex: 2,),
+                const Spacer(
+                  flex: 2,
+                ),
                 // Title of voucher
                 Text(
                   widget.voucher.titleVoucher,
@@ -146,7 +148,9 @@ class VoucherInfoState extends State<VoucherInfo> {
                     color: secondaryText,
                   ),
                 ),
-                const Spacer(flex: 2,),
+                const Spacer(
+                  flex: 2,
+                ),
                 // How many persons
                 Row(
                   children: [
@@ -190,19 +194,21 @@ class VoucherInfoState extends State<VoucherInfo> {
                     ),
                   ],
                 ),
-                const Spacer(flex: 2,),
+                const Spacer(
+                  flex: 2,
+                ),
                 // Info about how it works
                 const Text(
                   'Activeer deze voucher, voordat de timer op 0 staat.',
                   style: TextStyle(fontSize: 16, color: secondaryText),
                 ),
-              const Spacer(flex: 2),
+                const Spacer(flex: 2),
                 const Text(
                   "Na het activeren van uw voucher, ontvangt u een QR code om toegang te krijgen tot uw geluksmomentje.",
                   style: TextStyle(fontSize: 16, color: secondaryText),
                 ),
-                  const Spacer(flex: 8),
-                  // Button activeer
+                const Spacer(flex: 8),
+                // Button activeer
                 SizedBox(
                   height: 45,
                   width: double.infinity,
@@ -210,7 +216,17 @@ class VoucherInfoState extends State<VoucherInfo> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primary,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GenerateQRCode(
+                                  reservationName: widget.voucher.titleVoucher,
+                                  reservationAmount: widget.voucher.persons,
+                                  reservationLocation: widget.voucher.location,
+                                )),
+                      );
+                    },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -269,4 +285,3 @@ class VoucherInfoState extends State<VoucherInfo> {
     );
   }
 }
-
