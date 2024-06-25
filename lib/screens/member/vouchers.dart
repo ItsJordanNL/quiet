@@ -45,6 +45,7 @@ class _VouchersPageState extends State<VouchersPage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: AppBar(
+          automaticallyImplyLeading: false, // Hide the back button
           title: Text(
             "Hey $_userName, wat wordt jouw \n geluksmomentje?",
             style: const TextStyle(

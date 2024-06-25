@@ -36,14 +36,18 @@ class UserListScreenState extends State<UserListScreen> {
   Icon getStatusIcon(int status) {
     switch (status) {
       case 0:
-        return const Icon(Icons.help_outline_rounded, color: Colors.red); // Red question mark
+        return const Icon(Icons.help_outline_rounded,
+            color: Colors.red); // Red question mark
       case 1:
-        return const Icon(Icons.support_agent_rounded, color: Colors.orange); // Orange group
+        return const Icon(Icons.support_agent_rounded,
+            color: Colors.orange); // Orange group
       case 2:
-        return const Icon(Icons.check_circle_outline_rounded, color: Colors.green); // Green check mark
+        return const Icon(Icons.check_circle_outline_rounded,
+            color: Colors.green); // Green check mark
       case 3:
       default:
-        return const Icon(Icons.chat_outlined, color: Colors.grey); // Grey chat bubble
+        return const Icon(Icons.chat_outlined,
+            color: Colors.grey); // Grey chat bubble
     }
   }
 
@@ -111,6 +115,7 @@ class UserListScreenState extends State<UserListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Hide the back button
         title: Row(
           children: [
             const Text(
@@ -158,7 +163,8 @@ class UserListScreenState extends State<UserListScreen> {
                 ),
                 filled: true,
                 fillColor: Colors.white,
-                contentPadding: const EdgeInsets.symmetric(vertical: 10.0), // Adjust vertical padding
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0), // Adjust vertical padding
                 prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (value) {
@@ -185,13 +191,17 @@ class UserListScreenState extends State<UserListScreen> {
                 final userLastMessageDetails = messageDetailsSnapshot.data!;
 
                 return StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('users').snapshots(),
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .snapshots(),
                   builder: (context, userSnapshot) {
                     if (userSnapshot.hasError) {
-                      return Center(child: Text('Error: ${userSnapshot.error}'));
+                      return Center(
+                          child: Text('Error: ${userSnapshot.error}'));
                     }
                     if (!userSnapshot.hasData ||
-                        userSnapshot.connectionState == ConnectionState.waiting) {
+                        userSnapshot.connectionState ==
+                            ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
@@ -210,14 +220,15 @@ class UserListScreenState extends State<UserListScreen> {
 
                     return ListView.separated(
                       itemCount: users.length,
-                      separatorBuilder: (context, index) =>
-                          const Divider(thickness: 1), // Add divider between items
+                      separatorBuilder: (context, index) => const Divider(
+                          thickness: 1), // Add divider between items
                       itemBuilder: (context, index) {
                         final user = users[index];
                         final userName = user['naam'];
                         final userId = user.id;
                         final userStatus = user['status'] as int;
-                        final lastMessageDetails = userLastMessageDetails[userId];
+                        final lastMessageDetails =
+                            userLastMessageDetails[userId];
                         final lastMessageTime = lastMessageDetails != null
                             ? formatTimestamp(lastMessageDetails['timestamp'])
                             : null;
@@ -244,7 +255,8 @@ class UserListScreenState extends State<UserListScreen> {
                                 Text(
                                   lastMessageTime,
                                   style: const TextStyle(
-                                      fontSize: 14), // Adjust the font size as needed
+                                      fontSize:
+                                          14), // Adjust the font size as needed
                                 ),
                             ],
                           ),

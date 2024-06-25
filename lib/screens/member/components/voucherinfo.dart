@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import 'package:quiet_app/screens/member/components/voucherlist.dart';
 import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/screens/member/components/generate_qr_code.dart';
-import 'package:quiet_app/screens/member/chat.dart';
+import 'package:quiet_app/screens/member/member.dart';
 
 class VoucherInfo extends StatefulWidget {
   final Voucher voucher;
@@ -249,7 +249,7 @@ class VoucherInfoState extends State<VoucherInfo> {
                   ),
                 ),
                 SizedBox(height: height * 0.02),
-                // Button contact
+// Button contact
                 SizedBox(
                   height: 45,
                   width: double.infinity,
@@ -257,14 +257,15 @@ class VoucherInfoState extends State<VoucherInfo> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: secondaryText,
                     ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ChatPage()),
-                          );
-                        },
-
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MemberMain(
+                              initialIndex: 1), // Pass the initialIndex here
+                        ),
+                      );
+                    },
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

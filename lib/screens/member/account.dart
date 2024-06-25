@@ -24,6 +24,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Hide the back button
         title: const Text("Leden Account"),
         foregroundColor: primaryText,
         backgroundColor: primary,

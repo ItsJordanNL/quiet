@@ -5,14 +5,23 @@ import "package:quiet_app/screens/member/chat.dart";
 import "package:quiet_app/screens/member/vouchers.dart";
 
 class MemberMain extends StatefulWidget {
-  const MemberMain({super.key});
+  final int initialIndex;
+
+  const MemberMain({super.key, this.initialIndex = 0});
 
   @override
   State<MemberMain> createState() => _MemberMainState();
 }
 
 class _MemberMainState extends State<MemberMain> {
-  int index = 0;
+  late int index;
+
+  @override
+  void initState() {
+    super.initState();
+    index = widget.initialIndex;
+  }
+
   final screens = [
     const VouchersPage(),
     const ChatPage(),
@@ -35,7 +44,8 @@ class _MemberMainState extends State<MemberMain> {
             child: NavigationBar(
               backgroundColor: backgroundColor,
               selectedIndex: index,
-              onDestinationSelected: (index) => setState(() => this.index = index),
+              onDestinationSelected: (index) =>
+                  setState(() => this.index = index),
               destinations: const [
                 NavigationDestination(
                   icon: Icon(
@@ -50,7 +60,8 @@ class _MemberMainState extends State<MemberMain> {
                       Icons.chat_outlined,
                       color: secondaryText,
                     ),
-                    selectedIcon: Icon(Icons.chat_rounded, color: backgroundColor),
+                    selectedIcon:
+                        Icon(Icons.chat_rounded, color: backgroundColor),
                     label: 'Chat'),
                 NavigationDestination(
                     icon: Icon(
