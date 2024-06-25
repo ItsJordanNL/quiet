@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:quiet_app/screens/member/components/voucherlist.dart';
 import 'package:quiet_app/constants/constants.dart';
 import 'package:quiet_app/screens/member/components/generate_qr_code.dart';
+import 'package:quiet_app/screens/member/chat.dart';
 
 class VoucherInfo extends StatefulWidget {
   final Voucher voucher;
@@ -256,7 +257,14 @@ class VoucherInfoState extends State<VoucherInfo> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: secondaryText,
                     ),
-                    onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ChatPage()),
+                          );
+                        },
+
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
