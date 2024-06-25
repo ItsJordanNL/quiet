@@ -21,6 +21,7 @@ class Ticket {
     required this.nameVolunteer,
   });
 }
+
 // Sorting for priority of ticketstatus
 bool ascendingOrder = true;
 
@@ -32,12 +33,13 @@ class DashboardQuestionlist extends StatefulWidget {
   @override
   State<DashboardQuestionlist> createState() => _DashboardQuestionlistState();
 }
+
 // List of tickets
 class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
   List<Ticket> tickets = [
     Ticket(
       memberPicture: 'assets/images/member_truus.png',
-      memberName: "Truus Bekker",
+      memberName: "Truus",
       date: "3-6-3024",
       status: primary,
       textStatus: 'Afgehandeld',
@@ -46,7 +48,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_joost.png',
-      memberName: "Joost Vries",
+      memberName: "Joost",
       date: "6-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -55,7 +57,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_bea.png',
-      memberName: "Bea Stipt",
+      memberName: "Bea",
       date: "12-6-2024",
       status: unanswered,
       textStatus: 'Openstaand',
@@ -64,7 +66,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_fleur.png',
-      memberName: "Fleur de \n Vries",
+      memberName: "Fleur",
       date: "12-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -73,7 +75,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_sasha.png',
-      memberName: "Sasha \n Bouwels",
+      memberName: "Sasha",
       date: "12-6-2024",
       status: inprogress,
       textStatus: 'In behandeling',
@@ -82,7 +84,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
     ),
     Ticket(
       memberPicture: 'assets/images/member_lotte.png',
-      memberName: "Lotte van der \n Meer",
+      memberName: "Lotte",
       date: "12-6-2024",
       status: unanswered,
       textStatus: 'Openstaand',
@@ -90,38 +92,49 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
       nameVolunteer: "",
     ),
   ];
-// Dropdown menu
+
+  // Dropdown menu
   final List<String> _dropdownItems = ['Vragen van Leden', 'Vragen voor Jou'];
   String _selectedItem = 'Vragen van Leden';
 
+// Select the volunteer who is logged in to sort the tickets
   List<Ticket> get filteredTickets {
     if (_selectedItem == 'Vragen van Leden') {
       return tickets;
     } else if (_selectedItem == 'Vragen voor Jou') {
       return tickets
-      // selects the volunteer who is logged in
           .where((ticket) => ticket.nameVolunteer == widget.nameVolunteer)
           .toList();
     }
-    return tickets; 
+    return tickets;
+  }
+
+  double responsiveFontsize(double screenWidth, double baseFontSize) {
+    return screenWidth * baseFontSize / 400;
   }
 
   @override
   Widget build(BuildContext context) {
+    // create responsiveness
+    var screenSize = MediaQuery.of(context).size;
+    var width = screenSize.width;
+    var height = screenSize.height;
+
     return Container(
-      margin: const EdgeInsets.only(top: 130, left: 20, right: 20),
+      margin: EdgeInsets.only(
+          top: height * 0.2, left: width * 0.05, right: width * 0.05),
       child: Column(children: [
         // Dropdown menu and filter button
         Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 10),
+          margin: EdgeInsets.only(top: height * 0.02, bottom: height * 0.01),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DropdownButton<String>(
                 value: _selectedItem,
                 icon: const Icon(Icons.arrow_drop_down_rounded),
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: responsiveFontsize(width, 16),
                   fontWeight: FontWeight.bold,
                   color: secondaryText,
                 ),
@@ -140,18 +153,21 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                     value: value,
                     child: Text(
                       value,
-                      style: const TextStyle(color: secondaryText),
+                      style: TextStyle(
+                        color: secondaryText,
+                        fontSize: responsiveFontsize(width, 16),
+                      ),
                     ),
                   );
                 }).toList(),
               ),
               // Status filter button
               SizedBox(
-                width: 40,
-                height: 40,
+                width: width * 0.1,
+                height: width * 0.1,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Define the order of statuses
+                    // Status
                     List<String> statusOrder = [
                       'Afgehandeld',
                       'In behandeling',
@@ -161,12 +177,10 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                     // Toggle sorting order
                     ascendingOrder = !ascendingOrder;
 
-                    // Sort filteredTickets based on the selected order
                     filteredTickets.sort((a, b) {
                       int indexA = statusOrder.indexOf(a.textStatus);
                       int indexB = statusOrder.indexOf(b.textStatus);
 
-                      // Determine sorting direction based on ascendingOrder flag
                       if (ascendingOrder) {
                         return indexA.compareTo(indexB); // Ascending order
                       } else {
@@ -174,11 +188,7 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
                       }
                     });
 
-                    // Update the UI
-                    setState(() {
-                      // No need to set _selectedItem again if not changed
-                      // _selectedItem = _selectedItem;
-                    });
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
@@ -197,17 +207,19 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
         ),
         // Date
         Container(
-          margin: const EdgeInsets.only(bottom: 15),
-          width: 96,
-          height: 23,
+          margin: EdgeInsets.only(bottom: height * 0.02),
+          width: width * 0.25,
+          height: height * 0.03,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: secondary,
           ),
-          child: const Text(
-            'juni',
-            style: TextStyle(fontSize: 16),
-            textAlign: TextAlign.center,
+          child: Center(
+            child: Text(
+              'juni',
+              style: TextStyle(fontSize: responsiveFontsize(width, 16)),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         // List of tickets
@@ -218,101 +230,118 @@ class _DashboardQuestionlistState extends State<DashboardQuestionlist> {
               Ticket ticket = filteredTickets[index];
               // ticket
               return Card(
-                margin: const EdgeInsets.only(bottom: 15),
+                margin: EdgeInsets.only(bottom: height * 0.02),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // picture and name member
                   children: [
                     Container(
-                      margin: const EdgeInsets.all(10),
+                      margin: EdgeInsets.all(width * 0.04),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ClipOval(
                             child: SizedBox.fromSize(
-                              size: const Size.fromRadius(30),
+                              size: Size.fromRadius(width * 0.08),
                               child: Image.asset(ticket.memberPicture,
                                   fit: BoxFit.cover),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: height * 0.0025),
                           Text(
                             ticket.memberName,
-                            style: const TextStyle(fontSize: 11),
+                            style: TextStyle(
+                              fontSize: responsiveFontsize(width, 11),
+                            ),
                             textAlign: TextAlign.center,
                           ),
                         ],
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 15),
-                      width: 243,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(right: width * 0.04),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin:  EdgeInsets.only(bottom: height * 0.01),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // Date
+                                  Opacity(
+                                    opacity: 0.85,
+                                    child: Text(
+                                      ticket.date,
+                                      style: TextStyle(
+                                        fontSize: responsiveFontsize(width, 15),
+                                      ),
+                                    ),
+                                  ),
+                                  // Status
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: ticket.status,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    padding: EdgeInsets.all(width * 0.01),
+                                    child: Text(
+                                      ticket.textStatus,
+                                      style: TextStyle(
+                                        fontSize: responsiveFontsize(width, 12),
+                                        fontWeight: FontWeight.bold,
+                                        color: primaryText,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Title voucher
+                            Container(
+                              margin: EdgeInsets.only(bottom: height * 0.01),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      ticket.titleVoucher,
+                                      style: TextStyle(
+                                        fontSize: responsiveFontsize(width, 14),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Name volunteer
+                            Row(
                               children: [
-                                // Date
                                 Opacity(
-                                  opacity: 0.85,
-                                  child: Text(
-                                    ticket.date,
-                                    style: const TextStyle(fontSize: 15),
+                                  opacity: 0.5,
+                                  child: Icon(
+                                    Icons.person_outline_rounded,
+                                    size: responsiveFontsize(width, 20),
                                   ),
                                 ),
-                                // Status
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: ticket.status,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  padding: const EdgeInsets.all(5),
+                                const SizedBox(width: 5),
+                                Opacity(
+                                  opacity: 0.5,
                                   child: Text(
-                                    ticket.textStatus,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: primaryText,
+                                    ticket.nameVolunteer,
+                                    style: TextStyle(
+                                      fontSize: responsiveFontsize(width, 16),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          // Title voucher
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  ticket.titleVoucher,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          // Name volunteer
-                          Row(
-                            children: [
-                              const Opacity(
-                                opacity: 0.5,
-                                child: Icon(Icons.person_outline_rounded),
-                              ),
-                              const SizedBox(width: 5),
-                              Opacity(
-                                opacity: 0.5,
-                                child: Text(
-                                  ticket.nameVolunteer,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
