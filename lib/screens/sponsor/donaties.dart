@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:quiet_app/constants/constants.dart";
 import 'package:quiet_app/screens/sponsor/components/scan_qr_code.dart';
+import 'package:quiet_app/screens/sponsor/components/voucherlist_sponsor.dart';
 
 class DonatiesPage extends StatefulWidget {
   const DonatiesPage({super.key});
@@ -29,6 +30,7 @@ class _DonatiesPageState extends State<DonatiesPage> {
           ),
         ],
       ),
+      body: const VoucherListSponsor(),
     );
   }
 }
